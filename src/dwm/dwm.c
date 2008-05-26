@@ -1962,7 +1962,7 @@ main(int argc, char *argv[]) {
 
 	checkotherwm();
 	setup();
-    pthread_create(&run_launcher, NULL, (void* (*) (void*))system, "dwm_edje_launcher");
+    pthread_create(&run_launcher, NULL, (void* (*) (void*))system, "dwm_edje_launcher -f");
     pthread_detach(run_launcher);
 	drawbar();
 	scan();
