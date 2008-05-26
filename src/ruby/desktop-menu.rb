@@ -9,7 +9,7 @@ class Desktopfile
         if string =~ /Name=[ ]*([^\n]*)|Exec=[ ]*([^ \n]*)([-]*[^\n]*)|Icon=[ ]*([^\n]*)/
             @name ||= $1 if $1
             @bin ||= $2 if $2
-            @params ||= $3.gsub(/%\w/, '').strip if $3                        
+            @params ||= $3.gsub(/%\w/, '') if $3                        
             if $4
                 @icon ||= $4
                 @icon = Dir["/usr/share/pixmaps/#@icon*"][0] if Dir["/usr/share/pixmaps/#@icon*"].compact[0]
