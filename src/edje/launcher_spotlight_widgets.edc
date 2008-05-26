@@ -1,0 +1,107 @@
+#define MENUITEM(partname, pos, pos2, alpha)                                    \
+        part {                                                                  \
+            name: partname"_box";                                               \
+            type: RECT;                                                         \
+            mouse_events: 0;                                                    \
+            description {                                                       \
+                state: "default" 0.0;                                           \
+                color: 0 0 0 0;                                                 \
+                rel1 { relative: 0.0 0.0 ; to: partname;}                       \
+                rel2 { relative: 1.0 1.0 ; offset: -1 -1; to: partname; }       \
+            }                                                                   \
+            description {                                                       \
+                state: "selected" 0.0;                                          \
+                inherit: "default" 0.0;                                         \
+                color: 10 40 210 128;                                           \
+            }                                                                   \
+        }                                                                       \
+        part {                                                                  \
+            name: partname;                                                     \
+            type: TEXT;                                                         \
+            effect: SOFT_SHADOW;                                                \
+            mouse_events: 1;                                                    \
+            description {                                                       \
+                state: "default" 0.0;                                           \
+                color: 0 0 0 0;                                                 \
+                rel1 { relative: 0.8 0.0 ; to: "background"; }                  \
+                rel2 { relative: 1.0 0.0; offset: -1 -1; to: "background"; }    \
+                text {                                                          \
+                    text: "text";                                               \
+                    font: "Sans";                                               \
+                    size: 14;                                                   \
+                }                                                               \
+            }                                                                   \
+            description {                                                       \
+                state: "open" 0.0;                                              \
+                color: 255 255 255 alpha;                                       \
+                rel1 { relative: 0.8 pos ; to: "background"; }                  \
+                rel2 { relative: 1.0 pos2; offset: -1 -1; to: "background"; }   \
+                text {                                                          \
+                    text: "text";                                               \
+                    font: "Sans";                                               \
+                    size: 14;                                                   \
+                }                                                               \
+            }                                                                   \
+        }                                                                       \
+        part {                                                                  \
+            name: partname"_icon";                                              \
+            type: SWALLOW;                                                      \
+            mouse_events: 0;                                                    \
+            description {                                                       \
+                state: "default" 0.0;                                           \
+                rel1 { relative: -0.2 0.0; to: partname; }                      \
+                rel2 { relative: 0.0 1.0; to: partname; }                       \
+            }                                                                   \
+       }
+
+
+            
+        part {                                                              
+            name: "kata_box";
+            type: RECT;                                                     
+            mouse_events: 1;                                                
+            description {                                                   
+                state: "default" 0.0;                                       
+                color: 0 0 0 0;                                  
+                rel1 { relative: 0.8 0.03 ; to: "background"; }              
+                rel2 { relative: 1.0 0.2 ; offset: -1 -1; to: "background"; }
+            }
+        }
+ 
+        part {                                                              
+            name: "kata1";                                                     
+            type: TEXT;                                                     
+            mouse_events: 0;
+            effect: SOFT_SHADOW;                                            
+            description {                                                   
+                state: "default" 0.0;                                       
+                color: 255 255 255 128;                                  
+                rel1 { relative: 0.8 0.02 ; to: "background"; }              
+                rel2 { relative: 1.0 0.09; offset: -1 -1; to: "background"; }
+                text {                                                      
+                    text: "Spotlight";                                             
+                    font: "Sans";
+                    size: 14;                                               
+                }                                                           
+            }                                                               
+            description {                                                   
+                state: "open" 0.0;                                     
+                color: 255 255 255 255;
+                rel1 { relative: 0.8 0.02 ; to: "background"; }             
+                rel2 { relative: 1.0 0.09; offset: -1 -1; to: "background"; }
+                text {                                                      
+                    text: "Spotlight";                                             
+                    font: "Sans";
+                    size: 14;                                               
+                }                                                           
+            }
+        }
+    
+    MENUITEM("kata2", 0.08, 0.15, 235) 
+    MENUITEM("kata3", 0.16, 0.23, 215)
+    MENUITEM("kata4", 0.24, 0.31, 195)
+    MENUITEM("kata5", 0.32, 0.39, 175)
+    MENUITEM("kata6", 0.40, 0.47, 155)
+    MENUITEM("kata7", 0.48, 0.55, 135)
+    MENUITEM("kata8", 0.56, 0.63, 115)
+    MENUITEM("kata9", 0.64, 0.71, 95)

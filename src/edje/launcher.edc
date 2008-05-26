@@ -1,0 +1,89 @@
+fonts {
+   font: "VeraBd.ttf" "Sans";
+}
+
+images {
+   image: "background.png" LOSSY 95;
+   image: "audio_player.png" COMP;
+   image: "image_viewer.png" COMP;
+   image: "video_player.png" COMP;
+   image: "web_browser.png" COMP;
+   image: "util.png" COMP;
+   image: "admin.png" COMP;
+   image: "office.png" COMP;
+   image: "mmedia.png" COMP;
+   image: "web.png" COMP;
+   image: "quit.png" COMP;
+   image: "selector.png" COMP;
+    image: "rotate_e.png" COMP;
+    image: "rotate_ne.png" COMP;
+    image: "rotate_n.png" COMP;
+    image: "rotate_nw.png" COMP;
+    image: "rotate_se.png" COMP;
+    image: "rotate_s.png" COMP;
+    image: "rotate_sw.png" COMP;
+    image: "rotate_w.png" COMP;
+}
+
+styles
+{
+    style {
+        name: "about_style";
+        base: "font=Edje-Vera font_size=10 text_class=tb_plain align=left color=#000 style=shadow shadow_color=#ffffff80 wrap=word";
+        tag:  "br" "\n";
+        tag:  "hilight" "+ font=Edje-Vera-Bold text_class=tb_light style=glow color=#fff glow2_color=#fe87 glow_color=#fa14";
+        tag:  "title" "+ font_size=12 font=Edje-Vera-Bold text_class=tb_big style=soft_shadow color=#fff shadow_color=#00000020";
+        tag:  "/title" "- \n \n";
+    }
+    style {
+        name: "launcher_style";
+        base: "font=Sans font_size=14 text_class=tb_big align=left color=#ffffff style=soft_shadow color=#fff shadow_color=#00000020 wrap=word";
+        tag:  "br" "\n";
+    }
+}    
+
+spectra {
+    spectrum {
+        name: "menubox_spectrum";
+//        color: 237 222 102 255 1;
+        color: 255 255 255 255 1;
+        color: 0 0 0 0 1;
+    }
+}
+
+collections {
+  group {
+    name: "main";
+    min: 800 480;
+
+    script {
+        #include<launcher_icon_scripts.edc> 
+        #include<launcher_spotlight_scripts.edc>
+        #include<launcher_menu_scripts.edc>
+    }
+
+    parts {
+        part {
+            name: "background";
+            type: IMAGE;
+            mouse_events: 0;
+            description {
+                state: "default" 0.0;
+                rel1 { relative: 0.0 0.0; }
+                rel2 { relative: 1.0 1.0; offset: -1 -1; }
+                image { normal: "background.png"; }
+            }
+        }
+
+        #include<launcher_spotlight_widgets.edc>
+        #include<launcher_icon_widgets.edc>
+        #include<launcher_menu_widgets.edc>
+      }
+      programs {
+        #include<launcher_icon_programs.edc>
+        #include<launcher_spotlight_programs.edc>
+        #include<launcher_menu_programs.edc>
+      }
+  }
+  #include<launcher_launchers.edc>  
+}

@@ -1,0 +1,45 @@
+#define CATEGORY(part_name, relx, rely, img)                        \
+part {                                                              \
+    name: part_name;                                                \
+    type: IMAGE;                                                    \
+    mouse_events: 1;                                                \
+    description {                                                   \
+        state: "default" 0.0;                                       \
+        image { normal: img; }                                      \
+        rel1 { relative: relx rely; offset: -76 -32;                \
+               to: "menubox"; }                                     \
+        rel2 { relative: relx rely; offset: -12  31;                \
+               to: "menubox"; }                                     \
+    }                                                               \
+}
+
+part {
+    name: "menubox";
+    type: GRADIENT;
+    description {
+        state: "default" 0.0;
+        rel1 { relative: 0.0 0.0; }
+        rel2 { relative: 0.005 1.0; }
+        gradient {
+            spectrum: "menubox_spectrum";
+            type: "radial";
+        }        
+        fill {
+            angle: 0.9;
+            spread: 0.2;
+        }
+    }
+    description {
+        state: "open" 0.0;
+        inherit: "default" 0.0;
+        rel1 { relative: 0.0 0.0; }
+        rel2 { relative: 0.3 1.0; }
+    }
+}                 
+                              
+CATEGORY("utilities", 0.97, 0.1,  "util.png")
+CATEGORY("multimedia", 0.89, 0.3, "mmedia.png")
+CATEGORY("office", 0.78, 0.5, "office.png")
+CATEGORY("web", 0.63, 0.7, "web.png")
+CATEGORY("admin", 0.37, 0.9, "admin.png")
+CATEGORY("quit", 0.97, 0.9, "quit.png")

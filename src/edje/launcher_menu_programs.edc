@@ -1,0 +1,87 @@
+program {
+    name: "menu_open";
+    signal: "mouse,in";
+    source: "menubox";           
+    script {        
+        set_int(menu_opened, get_int(menu_opened)+1);
+        menu_open_script()
+    }
+}
+program {
+    name: "menu_open_up";
+    action: STATE_SET "open" 0.0;
+    target: "menubox";
+    transition: DECELERATE 1.0;
+}                
+program {
+    name: "menu_open_push";
+    signal: "*";
+    source: "menu_open_up";
+    action: STATE_SET "pushed" 0.0;
+    target: "iconbox";
+    transition: LINEAR 1.0;
+}                
+program {
+    name: "menu_close";
+    signal: "mouse,out";
+    source: "menubox";
+    in: 0.5 0.0;            
+    script {
+        set_int(menu_opened, get_int(menu_opened)-1);
+        menu_close_script()
+    }
+}
+program {
+    name: "menu_close_down";
+    action: STATE_SET "default" 0.0;
+    target: "menubox";
+    transition: ACCELERATE 0.5;
+}
+program {
+    name: "menu_close_push";
+    signal: "*";
+    source: "menu_close_down";
+    action: STATE_SET "default" 0.0;
+    target: "iconbox";
+    transition: ACCELERATE 0.5;
+}               
+
+#define CATEGORYSCRIPT(part_name)           \
+program {                                   \
+    name: part_name"_in";                   \
+    signal: "mouse,in";                     \
+    source: part_name;                      \
+    script {                                \
+        set_int(menu_opened, get_int(menu_opened)+1);    \
+    }                                       \
+}                                           \
+program {                                   \
+    name: part_name"_out";                  \
+    signal: "mouse,out";                    \
+    source: part_name;                      \
+    in: 0.5 0.0;                            \
+    script {                                \
+        set_int(menu_opened, get_int(menu_opened)-1);    \
+        menu_close_script();                \
+    }                                       \
+}                                           \
+program {                                   \
+    name: part_name"_clicked";              \
+    signal: "mouse,clicked,1";              \
+    source: part_name;                      \
+    action: SIGNAL_EMIT "CATEGORY" part_name;\
+}   
+
+CATEGORYSCRIPT("utilities")
+CATEGORYSCRIPT("multimedia")
+CATEGORYSCRIPT("office")
+CATEGORYSCRIPT("web")
+CATEGORYSCRIPT("admin")
+CATEGORYSCRIPT("quit")
+
+program {
+    name: "quit_icon";
+    signal: "mouse,clicked,1";
+    source: "quit";
+    action: SIGNAL_EMIT "QUIT" "quit";
+}       

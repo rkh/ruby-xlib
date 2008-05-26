@@ -1,0 +1,23 @@
+    public spotlight_open_close;
+    public spotlight_show() {
+        if (get_int(spotlight_open_close) == 1) {
+            set_state(PART:"kata1", "open", 0.0);
+            run_program(PROGRAM:"kata1_slide_open");
+        }
+    }
+    public spotlight_hide() {
+        if (get_int(spotlight_open_close) == 2) {
+            set_state(PART:"kata9", "default", 0.0);
+            set_state(PART:"kata8", "default", 0.0);
+            set_state(PART:"kata7", "default", 0.0);
+            set_state(PART:"kata6", "default", 0.0);
+            set_state(PART:"kata5", "default", 0.0);
+            set_state(PART:"kata4", "default", 0.0);
+            set_state(PART:"kata3", "default", 0.0);
+            set_state(PART:"kata2", "default", 0.0);
+            set_state(PART:"kata1", "default", 0.0);
+            //run_program(PROGRAM:"kata9_slide_close");                 
+            set_int(spotlight_open_close, 0);
+        }
+    }
+

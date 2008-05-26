@@ -1,0 +1,27 @@
+         public selected = 0;
+         public pulsing = 0;
+         public stop_pulsing_timer_id = 0;
+         const Float:pulse_timeout = 10.0;
+
+         public unselect() {
+            if (get_int(selected) == 0)
+               return;
+            run_program(get_int(selected));
+            set_int(selected, 0);
+         }
+
+         public stop_pulsing() {
+            if (get_int(pulsing) == 0)
+               return;
+            set_state(get_int(pulsing), "default", 0.0);
+            set_int(pulsing, 0);
+            if (get_int(stop_pulsing_timer_id) != 0) {
+               cancel_timer(get_int(stop_pulsing_timer_id));
+               set_int(stop_pulsing_timer_id, 0);
+            }
+         }
+
+         public stop_pulsing_cb(val) {
+            stop_pulsing();
+            return 0;
+         }

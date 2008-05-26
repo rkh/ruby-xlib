@@ -1,0 +1,75 @@
+#define SLIDE_OPEN(part_name, prev, next)   \
+    program {                               \
+        name: part_name"_slide_open";       \
+        signal: "*";                        \
+        source: prev"_slide_open";          \
+        in: 0.2 0.0;                        \
+        action: STATE_SET "open" 0.0;       \
+        target: part_name;                  \
+        transition: DECELERATE .5;          \
+    }                                       \
+    program {                               \
+        name: part_name"_slide_close";      \
+        signal: "*";                        \
+        source: next"_slide_close";         \
+        in: 0.1 0.1;                        \
+        action: STATE_SET "default" 0.0;    \
+        target: part_name;                  \
+        transition: ACCELERATE .5;          \
+    }
+    
+    program {
+        name: "katapult_start";
+        signal: "mouse,clicked,1";            
+        source: "kata_box";
+        script {
+            set_int(spotlight_open_close, get_int(spotlight_open_close)+1);
+            spotlight_show();
+            spotlight_hide();
+        }
+    }
+    
+    SLIDE_OPEN("kata1", "katapult_start", "kata2")
+    SLIDE_OPEN("kata2", "kata1", "kata3")
+    SLIDE_OPEN("kata3", "kata2", "kata4")
+    SLIDE_OPEN("kata4", "kata3", "kata5")
+    SLIDE_OPEN("kata5", "kata4", "kata6")
+    SLIDE_OPEN("kata6", "kata5", "kata7")
+    SLIDE_OPEN("kata7", "kata6", "kata8")
+    SLIDE_OPEN("kata8", "kata7", "kata9")
+    SLIDE_OPEN("kata9", "kata8", "katapult_start")
+
+#define MARK_SELECTED(part_name)            \
+    program {                               \
+        name: part_name"_selected";         \
+        signal: "mouse,in";                 \
+        source: part_name;                  \
+        action: STATE_SET "selected" 0.0;   \
+        target: part_name"_box";            \
+        transition: LINEAR 0.1;             \
+    }                                       \
+    program {                               \
+        name: part_name"_unselected";       \
+        signal: "mouse,out";                \
+        source: part_name;                  \
+        action: STATE_SET "default" 0.0;    \
+        target: part_name"_box";            \
+        transition: LINEAR 0.1;             \
+    }                                       \
+    program {                               \
+        name: part_name"_run";              \
+        signal: "mouse,clicked,1";          \
+        source: part_name;                  \
+        action: SIGNAL_EMIT "RUN" part_name;\
+    }
+
+
+    MARK_SELECTED("kata2")
+    MARK_SELECTED("kata3")
+    MARK_SELECTED("kata4")
+    MARK_SELECTED("kata5")
+    MARK_SELECTED("kata6")
+    MARK_SELECTED("kata7")
+    MARK_SELECTED("kata8")
+    MARK_SELECTED("kata9")
+

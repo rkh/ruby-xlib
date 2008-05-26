@@ -1,0 +1,13 @@
+public menu_opened;
+public menu_list_opened;
+
+public menu_open_script() {
+    if (get_int(menu_opened) > 0)
+        run_program(PROGRAM:"menu_open_up");
+}
+public menu_close_script() {
+    if (get_int(menu_opened) < 1)
+        run_program(PROGRAM:"menu_close_down");
+}    
+
+

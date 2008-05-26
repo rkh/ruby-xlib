@@ -1,0 +1,147 @@
+group {
+  name: "launcher";
+  min: 316 36;
+  max: 316 36;
+
+#define LAUNCHER(pname, x, y)                                       \
+    part {                                                          \
+        name: pname"_text";                                         \
+        type: TEXTBLOCK;                                            \
+        mouse_events: 1;                                            \
+        description {                                               \
+            state: "default" 0.0;                                   \
+            rel1 { relative: x y; offset: -284 0; }                 \
+            rel2 { relative: x y; offset: -1 30; }                  \
+            text {                                                  \
+                text: "";                                           \
+                style: "launcher_style";                            \
+            }                                                       \
+        }                                                           \
+    }                                                               \
+    part {                                                          \
+        name: pname"_background";                                   \
+        type: IMAGE;                                                 \
+        description {                                               \
+            state: "default" 0.0;                                   \
+            rel1 { relative: x y; offset: -324 -16; }               \
+            rel2 { relative: x y; offset: -1 33; }                  \
+            color: 255 128 128 0;                                   \
+            image { normal: "selector.png"; }                        \
+        }                                                           \
+        description {                                               \
+            state: "selected" 0.0;                                  \
+            inherit: "default" 0.0;                                 \
+            color: 255 255 255 128;                                 \
+        }                                                           \
+    }                                                               \
+    part {\
+        name: pname"_rotative";\
+        type: IMAGE;\
+        description {\
+            state: "default" 0.0;\
+            rel1 { relative: 1.0 0.0; offset: 0 -6; to: pname"_text"; }\
+            rel2 { relative: 1.0 1.0; offset: 30 -6; to: pname"_text"; }\
+            image { normal: "rotate_n.png"; }\
+            color: 0 0 0 0;\
+        }\
+        description {\
+            state: "rotating" 0.0;\
+            inherit: "default" 0.0;\
+            image { normal: "rotate_n.png"; \
+                    tween: "rotate_ne.png";\
+                    tween: "rotate_e.png";\
+                    tween: "rotate_se.png";\
+                    tween: "rotate_s.png";\
+                    tween: "rotate_sw.png";\
+                    tween: "rotate_w.png";\
+                    tween: "rotate_nw.png";\
+                    tween: "rotate_n.png";\
+            }\
+            color: 255 255 255 255;\
+        }\
+        description {\
+            state: "rotating" 1.0;\
+            inherit: "default" 0.0;\
+            image { normal: "rotate_n.png"; \
+                    tween: "rotate_ne.png";\
+                    tween: "rotate_e.png";\
+                    tween: "rotate_se.png";\
+                    tween: "rotate_s.png";\
+                    tween: "rotate_sw.png";\
+                    tween: "rotate_w.png";\
+                    tween: "rotate_nw.png";\
+                    tween: "rotate_n.png";\
+            }\
+            color: 255 255 255 0;\
+        }\
+    }\
+    part {                                                          \
+        name: pname"_icon";                                         \
+        type: SWALLOW;                                              \
+        description {                                               \
+            state: "default" 0.0;                                   \
+            rel1 { relative: 0.0 0.0;                               \
+                   offset: -32.0 0.0;                               \
+                   to: pname"_text"; }                              \
+            rel2 { relative: 0.0 1.0;                               \
+                   offset: 0.0 -1;                                  \
+                   to: pname"_text"; }                              \
+        }                                                           \
+    }
+
+
+#define LAUNCHERPROG(pname)                                         \
+    program {                                                       \
+        name: pname"_run";                                          \
+        signal: "mouse,clicked,1";                                  \
+        source: pname"_background";                                 \
+        action: SIGNAL_EMIT "RUN" pname;                            \
+        after: pname"_rotate";                                      \
+    }                                                               \
+    program {\
+        name: pname"_rotate";\
+        action: STATE_SET "rotating" 0.0;\
+        target: pname"_rotative";\
+        transition: LINEAR 1;\
+        after: pname"_stop_rotate1";\
+    }\
+    program {\
+        name: pname"_stop_rotate1";\
+        action: STATE_SET "rotating" 1.0;\
+        target: pname"_rotative";\
+        transition: LINEAR 1;\
+        after: pname"_stop_rotate2";\
+    }\
+    program {\
+        name: pname"_stop_rotate2";\
+        action: STATE_SET "default" 0.0;\
+        target: pname"_rotative";\
+        transition: LINEAR 1;\
+    }\
+    program {                                                       \
+        name: pname"_selected";                                     \
+        signal: "mouse,in";                                         \
+        source: pname"_background";                                 \
+        action: STATE_SET "selected" 0.0;                           \
+        target: pname"_background";                                 \
+        transition: LINEAR 0.5;                                     \
+    }                                                               \
+    program {                                                       \
+        name: pname"_deselected";                                   \
+        signal: "mouse,out";                                        \
+        source: pname"_background";                                 \
+        action: STATE_SET "default" 0.0;                            \
+        target: pname"_background";                                 \
+        transition: LINEAR 0.5;                                     \
+    }
+
+// horizontal: 0.4 (+ 0.4)
+// vertikal: 0.04 (+ 0.04)
+
+parts {  
+    LAUNCHER("1", 1.0, 1.0)
+}
+
+programs {
+    LAUNCHERPROG("1")
+}    
