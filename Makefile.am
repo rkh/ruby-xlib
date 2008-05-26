@@ -9,5 +9,5 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 EXTRA_DIST = reconf configure
-SUBDIRS = m4 src doc src/dwm src/ruby src/ruby/cruby src/edje
+SUBDIRS = m4 src doc src/dwm src/ruby/cruby src/ruby src/edje
 
