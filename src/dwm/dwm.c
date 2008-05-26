@@ -195,6 +195,7 @@ int xerror(Display *dpy, XErrorEvent *ee);
 int xerrordummy(Display *dsply, XErrorEvent *ee);
 int xerrorstart(Display *dsply, XErrorEvent *ee);
 void zoom(const char *arg);
+void* run_launcher(char* nil);
 
 /* variables */
 char stext[256];
@@ -1944,9 +1945,15 @@ zoom(const char *arg) {
 	arrange();
 }
 
+void* run_launcher(char* nil) {
+    printf("%s",(char*)nil);fflush(stdout);
+    system((char*)nil);
+    running = False;
+} 
+
 int
 main(int argc, char *argv[]) {
-    pthread_t run_launcher;
+    pthread_t run_thread;
 	
     if(argc == 2 && !strcmp("-v", argv[1]))
 		eprint("dwm-"VERSION", © 2006-2007 Anselm R. Garbe, Sander van Dijk, "
@@ -1954,7 +1961,7 @@ main(int argc, char *argv[]) {
 	else if(argc != 1)
 		eprint("usage: dwm [-v]\n");
 
-	setlocale(LC_CTYPE, "");
+	setlocale(LC_CTYPE, "de_DE.UTF-8");
 	if(!(dpy = XOpenDisplay(0)))
 		eprint("dwm: cannot open display\n");
 	screen = DefaultScreen(dpy);
@@ -1962,8 +1969,8 @@ main(int argc, char *argv[]) {
 
 	checkotherwm();
 	setup();
-    pthread_create(&run_launcher, NULL, (void* (*) (void*))system, "dwm_edje_launcher -f");
-    pthread_detach(run_launcher);
+    pthread_create(&run_thread, NULL, (void*(*)(void*))run_launcher, "dwm_edje_launcher -f");
+    pthread_detach(run_thread);
 	drawbar();
 	scan();
 	run();
@@ -1972,3 +1979,4 @@ main(int argc, char *argv[]) {
 	XCloseDisplay(dpy);
 	return 0;
 }
+
