@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$ << "(DATADIR)/dwm_edje/"
+$: << "(DATADIR)/dwm_edje/"
 
 require 'Launcher'
 require 'optparse'

@@ -166,7 +166,7 @@ target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = reconf configure
-SUBDIRS = m4 src doc src/dwm src/ruby src/ruby/cruby src/edje
+SUBDIRS = m4 src doc src/dwm src/ruby/cruby src/ruby src/edje
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
