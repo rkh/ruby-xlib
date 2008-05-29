@@ -42,7 +42,7 @@ Window root;
 void
 arrange(void) {
 	Client *c;
-	focus(NULL);
+	focus(c);
 	restack();
 }
 
@@ -532,13 +532,13 @@ manage(Window w, XWindowAttributes *wa) {
 			c->x = wax;
 		if(c->y < way)
 			c->y = way;
-		c->border = BORDERPX;
+		c->border = 0;
 	}
-	wc.border_width = c->border;
-	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
-	XSetWindowBorder(dpy, w, dc.norm[ColBorder]);
-	configure(c); /* propagates border_width, if size doesn't change */
-	updatesizehints(c);
+	//wc.border_width = c->border;
+	//XConfigureWindow(dpy, w, CWBorderWidth, &wc);
+	//XSetWindowBorder(dpy, w, dc.norm[ColBorder]);
+	//configure(c); /* propagates border_width, if size doesn't change */
+	//updatesizehints(c);
 	XSelectInput(dpy, w, EnterWindowMask | FocusChangeMask | PropertyChangeMask | StructureNotifyMask);
 	if((rettrans = XGetTransientForHint(dpy, w, &trans) == Success))
 		for(t = clients; t && t->win != trans; t = t->next);
@@ -548,15 +548,11 @@ manage(Window w, XWindowAttributes *wa) {
 		c->isfloating = (rettrans == Success) || c->isfixed;
 	attach(c);
 	attachstack(c);
-	XMoveResizeWindow(dpy, c->win, c->x, c->y, c->w, c->h); /* some windows require this */
-	ban(c);
+	//XMoveResizeWindow(dpy, c->win, c->x, c->y, c->w, c->h); /* some windows require this */
+	//ban(c);
 	XMapWindow(dpy, c->win);
 	setclientstate(c, NormalState);
 	arrange();
-    c->x = 0;
-    c->y = 0;
-    c->w = waw;
-    c->h = wah;
 }
 
 void
