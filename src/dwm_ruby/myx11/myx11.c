@@ -44,6 +44,7 @@ typedef struct WM_t {
     Atom wmatom[WMLast];
     Atom netatom[NetLast];
     Client* clients;
+    unsigned int clients_num;
 } WM;
 
 int xerror(Display *dpy, XErrorEvent *ee) {
@@ -86,6 +87,11 @@ void setup(WM* winman) {
     winman->sw = DisplayWidth(winman->dpy, winman->screen);
     winman->sh = DisplayHeight(winman->dpy, winman->screen);
 
+    // init window area
+    winman->wax = winman->way = 0;
+    winman->waw = winman->sw;
+    winman->wah = winman->sh;
+
     // TODO: init modifier map
     // TODO: init cursors
 
@@ -105,18 +111,17 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XEvent ev;
 
     c->win = w;
-    c->x = 0;
-    c->y = 0;
-    c->w = 2*wa->width;
-    c->h = 2*wa->height;
+    c->x = wa->x;
+    c->y = wa->y;
+    c->w = wa->width;
+    c->h = wa->height;
     c->oldborder = wa->border_width;
     if(c->w == winman->sw && c->h == winman->sh) {
-        c->x = 0;
-        c->y = 0;
+        c->x = winman->sx;
+        c->y = winman->sy;
         c->border = wa->border_width;
     }
     else {
-/*        
         if(c->x + c->w + 2 * c->border > winman->wax + winman->waw)
             c->x = winman->wax + winman->waw - c->w - 2 * c->border;
         if(c->y + c->h + 2 * c->border > winman->way + winman->wah)
@@ -125,12 +130,10 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
             c->x = winman->wax;
         if(c->y < winman->way)
             c->y = winman->way;
-        c->border = 0;*/
+        c->border = 0;
     }
     wc.border_width = c->border;
     XConfigureWindow(winman->dpy, w, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
-    //configure(c);
-    //updatesizehints(c);
     XSelectInput(winman->dpy, w, EnterWindowMask | FocusChangeMask 
             | PropertyChangeMask | StructureNotifyMask);
     XMoveResizeWindow(winman->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this    
@@ -141,7 +144,70 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     winman->selected = c;
     XRaiseWindow(winman->dpy, winman->selected->win);
     XSync(winman->dpy, False);
-    //while(XCheckMaskEvent(winman->dpy, EnterWindowMask, &ev));
+}
+
+void
+resize(WM* winman, Client *c, int x, int y, int w, int h, Bool sizehints) {
+	XWindowChanges wc;
+
+	if(sizehints) {
+		/* set minimum possible */
+		if (w < 1)
+			w = 1;
+		if (h < 1)
+			h = 1;
+
+		/* temporarily remove base dimensions */
+		w -= c->basew;
+		h -= c->baseh;
+
+		/* adjust for aspect limits */
+		if (c->minay > 0 && c->maxay > 0 && c->minax > 0 && c->maxax > 0) {
+			if (w * c->maxay > h * c->maxax)
+				w = h * c->maxax / c->maxay;
+			else if (w * c->minay < h * c->minax)
+				h = w * c->minay / c->minax;
+		}
+
+		/* adjust for increment value */
+		if(c->incw)
+			w -= w % c->incw;
+		if(c->inch)
+			h -= h % c->inch;
+
+		/* restore base dimensions */
+		w += c->basew;
+		h += c->baseh;
+
+		if(c->minw > 0 && w < c->minw)
+			w = c->minw;
+		if(c->minh > 0 && h < c->minh)
+			h = c->minh;
+		if(c->maxw > 0 && w > c->maxw)
+			w = c->maxw;
+		if(c->maxh > 0 && h > c->maxh)
+			h = c->maxh;
+	}
+	if(w <= 0 || h <= 0)
+		return;
+	/* offscreen appearance fixes */
+	if(x > winman->sw)
+		x = winman->sw - w - 2 * c->border;
+	if(y > winman->sh)
+		y = winman->sh - h - 2 * c->border;
+	if(x + w + 2 * c->border < winman->sx)
+		x = winman->sx;
+	if(y + h + 2 * c->border < winman->sy)
+		y = winman->sy;
+	if(c->x != x || c->y != y || c->w != w || c->h != h) {
+		c->x = wc.x = x;
+		c->y = wc.y = y;
+		c->w = wc.width = w;
+		c->h = wc.height = h;
+		wc.border_width = c->border;
+		XConfigureWindow(winman->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+		XSync(winman->dpy, False);
+	}
 }
 
 Client* query_clients(WM* winman) {
@@ -152,6 +218,7 @@ Client* query_clients(WM* winman) {
 
     wins = NULL;
     if (XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num)) {
+        winman->clients_num = num;
         c = calloc(num, sizeof(Client));
         for (i = 0; i < num; i++) {
             XGetWindowAttributes(winman->dpy, wins[i], &wa);
@@ -196,15 +263,23 @@ void Destroy_WM(WM* winman) {
 
 int main() {
     WM winman;
+    int i;
+
     printf("Start to init NOW!\n");fflush(stdout);
     winman = Init_WM();
+    printf("We have a screen: %d  %d %d %d\n", winman.sx, winman.sy, winman.sw, winman.sh);
+    printf("               ... and a window area: %d %d %d %d\n", winman.wax, winman.way, winman.waw, winman.wah);
     printf("Start query NOW!\n");fflush(stdout);
     winman.clients = query_clients(&winman);
     printf("Success! We should have clients now!\n");
-    printf("Trying the first clients name: %s \n", winman.clients[0].name);
-    printf("Trying the first clients geo: %d %d %d %d\n", 
-            winman.clients[0].x, winman.clients[0].y, winman.clients[0].w, winman.clients[0].h);
-    printf("Finish for now...");
+    for(i=0; i < winman.clients_num; i++) {
+        printf("Trying client number %d name: %s \n", i, winman.clients[i].name);
+        printf("Trying clienter number %d geo: %d %d %d %d\n", 
+                i, winman.clients[0].x, winman.clients[0].y, winman.clients[i].w, winman.clients[0].h);
+    }
+    printf("Great so far! Try some resizing now...\n");fflush(stdout);
+    resize(&winman, &winman.clients[0], winman.wax, winman.way, winman.waw, winman.wah, False);
+    printf("Finish for now...\n");
     return 0;
 }
 
