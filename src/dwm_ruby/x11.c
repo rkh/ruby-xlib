@@ -172,7 +172,7 @@ Client* query_clients(WM* winman) {
     wins = NULL;
     if (XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num)) {
         winman->clients_num = num;
-        c = calloc(num, sizeof(Client));
+        c = (Client*)calloc(num, sizeof(Client));
         for (i = 0; i < num; i++) {
             XGetWindowAttributes(winman->dpy, wins[i], &wa);
             if(wa.map_state == IsViewable)
