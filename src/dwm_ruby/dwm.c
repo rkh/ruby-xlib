@@ -42,7 +42,7 @@ Window root;
 void
 arrange(void) {
 	Client *c;
-	focus(c);
+	focus(NULL);
 	restack();
 }
 

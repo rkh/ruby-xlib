@@ -145,7 +145,7 @@ target_alias =
 top_builddir = ../..
 top_srcdir = ../..
 AM_CPPFLAGS = -DVERSION=\"${VERSION}\"
-AM_CFLAGS = -I. -I/usr/include -I/usr/X11R6/include
+AM_CFLAGS = -I. -I/usr/include -I/usr/X11R6/include -ggdb
 dwm_edje_wm_SOURCES = dwm.c config.h
 dwm_edje_wm_LDADD = -lpthread -L/usr/lib -lc -L/usr/X11R6/lib -lX11
 all: all-am
