@@ -7,10 +7,19 @@ require 'optparse'
 
 @config = {}
 
+def fullscreen()
+    begin
+        %[xrandr][/ *(\d+x\d+).*\*/]
+        @config[:geo] = $1.split('x').collect { |s| s.to_i }
+    rescue        
+        puts "No xrandr - defaulting"
+    end
+end
+
 ARGV.options do |opts|
    opts.on("-h", "--help", "Print this text") { puts opts; exit }
    opts.on("-g", "--geometry WIDTHxHEIGHT", "Set size") { |x| @config[:geo] = x.split('x').collect { |s| s.to_i } if x =~ /^\d+x\d+$/ } 
-   opts.on("-f", "--fullscreen", "Enable fullscreen") { %x[xrandr][/ *(\d+x\d+).*\*/]; @config[:geo] = $1.split('x').collect { |s| s.to_i } }
+   opts.on("-f", "--fullscreen", "Enable fullscreen") { fullscreen() }
    opts.on("-d", "--desktop-directories [PATH,PATH]", Array, "Set application's *.desktop files paths") { |paths| @config[:paths] = paths } 
    opts.parse!
 end   
