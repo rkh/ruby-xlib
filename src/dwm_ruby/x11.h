@@ -50,7 +50,7 @@ typedef struct WM_t {
     Client* clients;
 } WM;
 
-void resize(WM* winman, Client *c, int x, int y, int w, int h, Bool sizehints);
+void resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints);
 Client* query_clients(WM* winman);
 WM Init_WM();
 void Destroy_WM(WM* winman);

@@ -1761,9 +1761,8 @@ int SWIG_Ruby_arity( VALUE proc, int minimal )
 #define SWIGTYPE_p_char swig_types[8]
 #define SWIGTYPE_p_f_p_Display_p_XErrorEvent__int swig_types[9]
 #define SWIGTYPE_p_f_p_q_const__char__void swig_types[10]
-#define SWIGTYPE_p_p_Client_t swig_types[11]
-static swig_type_info *swig_types[13];
-static swig_module_info swig_module = {swig_types, 12, 0, 0, 0, 0};
+static swig_type_info *swig_types[12];
+static swig_module_info swig_module = {swig_types, 11, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4995,7 +4994,7 @@ fail:
 SWIGINTERN VALUE
 _wrap_WM_clients_set(int argc, VALUE *argv, VALUE self) {
   WM *arg1 = (WM *) 0 ;
-  Client **arg2 = (Client **) 0 ;
+  Client *arg2 = (Client *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -5009,11 +5008,11 @@ _wrap_WM_clients_set(int argc, VALUE *argv, VALUE self) {
     SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "WM *","clients", 1, self )); 
   }
   arg1 = (WM *)(argp1);
-  res2 = SWIG_ConvertPtr(argv[0], &argp2,SWIGTYPE_p_p_Client_t, 0 |  0 );
+  res2 = SWIG_ConvertPtr(argv[0], &argp2,SWIGTYPE_p_Client_t, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "Client **","clients", 2, argv[0] )); 
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "Client *","clients", 2, argv[0] )); 
   }
-  arg2 = (Client **)(argp2);
+  arg2 = (Client *)(argp2);
   if (arg1) (arg1)->clients = arg2;
   
   return Qnil;
@@ -5025,7 +5024,7 @@ fail:
 SWIGINTERN VALUE
 _wrap_WM_clients_get(int argc, VALUE *argv, VALUE self) {
   WM *arg1 = (WM *) 0 ;
-  Client **result = 0 ;
+  Client *result = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   VALUE vresult = Qnil;
@@ -5038,8 +5037,8 @@ _wrap_WM_clients_get(int argc, VALUE *argv, VALUE self) {
     SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "WM *","clients", 1, self )); 
   }
   arg1 = (WM *)(argp1);
-  result = (Client **) ((arg1)->clients);
-  vresult = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_p_Client_t, 0 |  0 );
+  result = (Client *) ((arg1)->clients);
+  vresult = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Client_t, 0 |  0 );
   return vresult;
 fail:
   return Qnil;
@@ -5145,7 +5144,7 @@ _wrap_resize(int argc, VALUE *argv, VALUE self) {
   int arg4 ;
   int arg5 ;
   int arg6 ;
-  Bool arg7 ;
+  int arg7 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -5158,8 +5157,8 @@ _wrap_resize(int argc, VALUE *argv, VALUE self) {
   int ecode5 = 0 ;
   int val6 ;
   int ecode6 = 0 ;
-  void *argp7 ;
-  int res7 = 0 ;
+  int val7 ;
+  int ecode7 = 0 ;
   
   if ((argc < 7) || (argc > 7)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 7)",argc); SWIG_fail;
@@ -5194,17 +5193,11 @@ _wrap_resize(int argc, VALUE *argv, VALUE self) {
     SWIG_exception_fail(SWIG_ArgError(ecode6), Ruby_Format_TypeError( "", "int","resize", 6, argv[5] ));
   } 
   arg6 = (int)(val6);
-  {
-    res7 = SWIG_ConvertPtr(argv[6], &argp7, SWIGTYPE_p_Bool,  0 );
-    if (!SWIG_IsOK(res7)) {
-      SWIG_exception_fail(SWIG_ArgError(res7), Ruby_Format_TypeError( "", "Bool","resize", 7, argv[6] )); 
-    }  
-    if (!argp7) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "Bool","resize", 7, argv[6]));
-    } else {
-      arg7 = *((Bool *)(argp7));
-    }
-  }
+  ecode7 = SWIG_AsVal_int(argv[6], &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), Ruby_Format_TypeError( "", "int","resize", 7, argv[6] ));
+  } 
+  arg7 = (int)(val7);
   resize(arg1,arg2,arg3,arg4,arg5,arg6,arg7);
   return Qnil;
 fail:
@@ -5273,6 +5266,38 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_get_client_by_index(int argc, VALUE *argv, VALUE self) {
+  WM *arg1 = (WM *) 0 ;
+  int arg2 ;
+  Client result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_WM_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "WM *","get_client_by_index", 1, argv[0] )); 
+  }
+  arg1 = (WM *)(argp1);
+  ecode2 = SWIG_AsVal_int(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "int","get_client_by_index", 2, argv[1] ));
+  } 
+  arg2 = (int)(val2);
+  result = get_client_by_index(arg1,arg2);
+  vresult = SWIG_NewPointerObj((Client *)memcpy((Client *)malloc(sizeof(Client)),&result,sizeof(Client)), SWIGTYPE_p_Client_t, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -5287,7 +5312,6 @@ static swig_type_info _swigt__p_Window = {"_p_Window", "Window *", 0, 0, (void*)
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_Display_p_XErrorEvent__int = {"_p_f_p_Display_p_XErrorEvent__int", "int (*)(Display *,XErrorEvent *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_p_Client_t = {"_p_p_Client_t", "Client **|struct Client_t **", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Atom,
@@ -5301,7 +5325,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
   &_swigt__p_f_p_Display_p_XErrorEvent__int,
   &_swigt__p_f_p_q_const__char__void,
-  &_swigt__p_p_Client_t,
 };
 
 static swig_cast_info _swigc__p_Atom[] = {  {&_swigt__p_Atom, 0, 0, 0},{0, 0, 0, 0}};
@@ -5315,7 +5338,6 @@ static swig_cast_info _swigc__p_Window[] = {  {&_swigt__p_Window, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_Display_p_XErrorEvent__int[] = {  {&_swigt__p_f_p_Display_p_XErrorEvent__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_p_Client_t[] = {  {&_swigt__p_p_Client_t, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Atom,
@@ -5329,7 +5351,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
   _swigc__p_f_p_Display_p_XErrorEvent__int,
   _swigc__p_f_p_q_const__char__void,
-  _swigc__p_p_Client_t,
 };
 
 
@@ -5734,5 +5755,6 @@ SWIGEXPORT void Init_x11(void) {
   rb_define_module_function(mX11, "query_clients", _wrap_query_clients, -1);
   rb_define_module_function(mX11, "Init_WM", _wrap_Init_WM, -1);
   rb_define_module_function(mX11, "Destroy_WM", _wrap_Destroy_WM, -1);
+  rb_define_module_function(mX11, "get_client_by_index", _wrap_get_client_by_index, -1);
 }
 

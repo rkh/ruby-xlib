@@ -100,10 +100,10 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
 }
 
 void
-resize(WM* winman, Client *c, int x, int y, int w, int h, Bool sizehints) {
+resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints) {
 	XWindowChanges wc;
 
-	if(sizehints) {
+	if(sizehints != 0) {
 		/* set minimum possible */
 		if (w < 1)
 			w = 1;
@@ -232,7 +232,7 @@ int main() {
                 i, winman.clients[0].x, winman.clients[0].y, winman.clients[i].w, winman.clients[0].h);
     }
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
-    resize(&winman, &winman.clients[0], winman.wax, winman.way, winman.waw, winman.wah, False);
+    resize(&winman, &winman.clients[0], winman.wax, winman.way, winman.waw, winman.wah, 0);
     printf("Finish for now...\n");
     return 0;
 }

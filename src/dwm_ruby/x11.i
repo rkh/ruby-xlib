@@ -42,8 +42,7 @@ typedef struct WM_t {
     unsigned int clients_num;
 } WM;
 
-extern void resize(WM* winman, Client *c, int x, int y, int w, int h, Bool sizehints);
+extern void resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints);
 extern Client* query_clients(WM* winman);
 extern WM Init_WM();
 extern void Destroy_WM(WM* winman);
-
