@@ -41,6 +41,7 @@ AC_CONFIG_FILES([
    src/edje/Makefile
    src/dwm/Makefile
    src/ruby/Makefile
+   src/ruby/cruby/Makefile
 ])
 
 AC_OUTPUT
