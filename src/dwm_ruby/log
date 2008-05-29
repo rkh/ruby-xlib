@@ -1,0 +1,540 @@
+dwm_wrap.c: In Funktion »_wrap_Client_t_name_set«:
+dwm_wrap.c:2117: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c:2118: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_name_get«:
+dwm_wrap.c:2141: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_x_set«:
+dwm_wrap.c:2177: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_x_get«:
+dwm_wrap.c:2201: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_y_set«:
+dwm_wrap.c:2231: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_y_get«:
+dwm_wrap.c:2255: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_w_set«:
+dwm_wrap.c:2285: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_w_get«:
+dwm_wrap.c:2309: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_h_set«:
+dwm_wrap.c:2339: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_h_get«:
+dwm_wrap.c:2363: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_rx_set«:
+dwm_wrap.c:2393: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_rx_get«:
+dwm_wrap.c:2417: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_ry_set«:
+dwm_wrap.c:2447: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_ry_get«:
+dwm_wrap.c:2471: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_rw_set«:
+dwm_wrap.c:2501: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_rw_get«:
+dwm_wrap.c:2525: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_rh_set«:
+dwm_wrap.c:2555: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_rh_get«:
+dwm_wrap.c:2579: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_basew_set«:
+dwm_wrap.c:2609: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_basew_get«:
+dwm_wrap.c:2633: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_baseh_set«:
+dwm_wrap.c:2663: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_baseh_get«:
+dwm_wrap.c:2687: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_incw_set«:
+dwm_wrap.c:2717: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_incw_get«:
+dwm_wrap.c:2741: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_inch_set«:
+dwm_wrap.c:2771: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_inch_get«:
+dwm_wrap.c:2795: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxw_set«:
+dwm_wrap.c:2825: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxw_get«:
+dwm_wrap.c:2849: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxh_set«:
+dwm_wrap.c:2879: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxh_get«:
+dwm_wrap.c:2903: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minw_set«:
+dwm_wrap.c:2933: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minw_get«:
+dwm_wrap.c:2957: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minh_set«:
+dwm_wrap.c:2987: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minh_get«:
+dwm_wrap.c:3011: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minax_set«:
+dwm_wrap.c:3041: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minax_get«:
+dwm_wrap.c:3065: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxax_set«:
+dwm_wrap.c:3095: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxax_get«:
+dwm_wrap.c:3119: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minay_set«:
+dwm_wrap.c:3149: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_minay_get«:
+dwm_wrap.c:3173: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxay_set«:
+dwm_wrap.c:3203: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_maxay_get«:
+dwm_wrap.c:3227: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_flags_set«:
+dwm_wrap.c:3257: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_flags_get«:
+dwm_wrap.c:3281: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_border_set«:
+dwm_wrap.c:3311: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_border_get«:
+dwm_wrap.c:3335: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_oldborder_set«:
+dwm_wrap.c:3365: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_oldborder_get«:
+dwm_wrap.c:3389: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_isbanned_set«:
+dwm_wrap.c:3425: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_isbanned_get«:
+dwm_wrap.c:3449: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_isfixed_set«:
+dwm_wrap.c:3485: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_isfixed_get«:
+dwm_wrap.c:3509: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_ismax_set«:
+dwm_wrap.c:3545: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_ismax_get«:
+dwm_wrap.c:3569: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_isfloating_set«:
+dwm_wrap.c:3605: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_isfloating_get«:
+dwm_wrap.c:3629: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_wasfloating_set«:
+dwm_wrap.c:3665: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_wasfloating_get«:
+dwm_wrap.c:3689: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_tags_set«:
+dwm_wrap.c:3719: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_tags_get«:
+dwm_wrap.c:3743: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_next_set«:
+dwm_wrap.c:3754: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3754: Fehler: (Jeder nicht deklarierte Bezeichner wird nur einmal aufgeführt
+dwm_wrap.c:3754: Fehler: für jede Funktion in der er auftritt.)
+dwm_wrap.c:3754: Fehler: »arg2« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3754: Fehler: expected expression before »)« token
+dwm_wrap.c:3772: Fehler: expected expression before »)« token
+dwm_wrap.c:3773: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_next_get«:
+dwm_wrap.c:3784: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3784: Fehler: »result« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3797: Fehler: expected expression before »)« token
+dwm_wrap.c:3797: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_prev_set«:
+dwm_wrap.c:3808: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3808: Fehler: »arg2« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3808: Fehler: expected expression before »)« token
+dwm_wrap.c:3826: Fehler: expected expression before »)« token
+dwm_wrap.c:3827: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_prev_get«:
+dwm_wrap.c:3838: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3838: Fehler: »result« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3851: Fehler: expected expression before »)« token
+dwm_wrap.c:3851: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_snext_set«:
+dwm_wrap.c:3862: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3862: Fehler: »arg2« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3862: Fehler: expected expression before »)« token
+dwm_wrap.c:3880: Fehler: expected expression before »)« token
+dwm_wrap.c:3881: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_snext_get«:
+dwm_wrap.c:3892: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3892: Fehler: »result« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:3905: Fehler: expected expression before »)« token
+dwm_wrap.c:3905: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_win_set«:
+dwm_wrap.c:3941: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_Client_t_win_get«:
+dwm_wrap.c:3965: Fehler: Dereferenzierung eines Zeigers auf unvollständigen Typen
+dwm_wrap.c: In Funktion »_wrap_new_Client_t«:
+dwm_wrap.c:3997: Fehler: Ungültige Anwendung von »sizeof« auf unvollständigen Typen »struct Client_t«
+dwm_wrap.c: Auf höchster Ebene:
+dwm_wrap.c:4006: Warnung: »struct Client_t« innerhalb Parameterliste deklariert
+dwm_wrap.c:4006: Warnung: sein Gültigkeitsbereich umfasst nur diese Definition bzw. Deklaration, was Sie wahrscheinlich nicht wollten
+dwm_wrap.c: In Funktion »_wrap_DC_x_set«:
+dwm_wrap.c:4014: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4014: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4014: Fehler: expected expression before »)« token
+dwm_wrap.c:4028: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_x_get«:
+dwm_wrap.c:4044: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4044: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4044: Fehler: expected expression before »)« token
+dwm_wrap.c:4057: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_y_set«:
+dwm_wrap.c:4068: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4068: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4068: Fehler: expected expression before »)« token
+dwm_wrap.c:4082: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_y_get«:
+dwm_wrap.c:4098: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4098: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4098: Fehler: expected expression before »)« token
+dwm_wrap.c:4111: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_w_set«:
+dwm_wrap.c:4122: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4122: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4122: Fehler: expected expression before »)« token
+dwm_wrap.c:4136: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_w_get«:
+dwm_wrap.c:4152: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4152: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4152: Fehler: expected expression before »)« token
+dwm_wrap.c:4165: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_h_set«:
+dwm_wrap.c:4176: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4176: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4176: Fehler: expected expression before »)« token
+dwm_wrap.c:4190: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_h_get«:
+dwm_wrap.c:4206: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4206: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4206: Fehler: expected expression before »)« token
+dwm_wrap.c:4219: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_norm_set«:
+dwm_wrap.c:4230: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4230: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4230: Fehler: expected expression before »)« token
+dwm_wrap.c:4244: Fehler: expected expression before »)« token
+dwm_wrap.c:4253: Fehler: »ColLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_DC_norm_get«:
+dwm_wrap.c:4266: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4266: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4266: Fehler: expected expression before »)« token
+dwm_wrap.c:4279: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_sel_set«:
+dwm_wrap.c:4290: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4290: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4290: Fehler: expected expression before »)« token
+dwm_wrap.c:4304: Fehler: expected expression before »)« token
+dwm_wrap.c:4313: Fehler: »ColLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_DC_sel_get«:
+dwm_wrap.c:4326: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4326: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4326: Fehler: expected expression before »)« token
+dwm_wrap.c:4339: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_drawable_set«:
+dwm_wrap.c:4350: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4350: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4350: Fehler: expected expression before »)« token
+dwm_wrap.c:4364: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_drawable_get«:
+dwm_wrap.c:4386: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4386: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4386: Fehler: expected expression before »)« token
+dwm_wrap.c:4399: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_gc_set«:
+dwm_wrap.c:4410: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4410: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4410: Fehler: expected expression before »)« token
+dwm_wrap.c:4424: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_gc_get«:
+dwm_wrap.c:4446: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4446: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4446: Fehler: expected expression before »)« token
+dwm_wrap.c:4459: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_DC_font_get«:
+dwm_wrap.c:4470: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4470: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4470: Fehler: expected expression before »)« token
+dwm_wrap.c:4483: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_new_DC«:
+dwm_wrap.c:4511: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4511: Fehler: »result« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4516: Fehler: expected expression before »)« token
+dwm_wrap.c:4516: Fehler: expected »;« before »calloc«
+dwm_wrap.c: Auf höchster Ebene:
+dwm_wrap.c:4525: Fehler: expected »)« before »*« token
+dwm_wrap.c: In Funktion »_wrap_Key_mod_set«:
+dwm_wrap.c:4848: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4848: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4848: Fehler: expected expression before »)« token
+dwm_wrap.c:4862: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_Key_mod_get«:
+dwm_wrap.c:4878: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4878: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4878: Fehler: expected expression before »)« token
+dwm_wrap.c:4891: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_Key_keysym_set«:
+dwm_wrap.c:4902: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4902: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4902: Fehler: expected expression before »)« token
+dwm_wrap.c:4916: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_Key_keysym_get«:
+dwm_wrap.c:4938: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4938: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4938: Fehler: expected expression before »)« token
+dwm_wrap.c:4951: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_Key_func_set«:
+dwm_wrap.c:4962: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4962: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4962: Fehler: expected expression before »)« token
+dwm_wrap.c:4974: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_Key_func_get«:
+dwm_wrap.c:4991: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4991: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:4991: Fehler: expected expression before »)« token
+dwm_wrap.c:5004: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_Key_arg_set«:
+dwm_wrap.c:5015: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5015: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5015: Fehler: expected expression before »)« token
+dwm_wrap.c:5030: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_Key_arg_get«:
+dwm_wrap.c:5052: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5052: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5052: Fehler: expected expression before »)« token
+dwm_wrap.c:5065: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_new_Key«:
+dwm_wrap.c:5093: Fehler: »Key« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5093: Fehler: »result« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5098: Fehler: expected expression before »)« token
+dwm_wrap.c:5098: Fehler: expected »;« before »calloc«
+dwm_wrap.c: Auf höchster Ebene:
+dwm_wrap.c:5107: Fehler: expected »)« before »*« token
+dwm_wrap.c: In Funktion »_wrap_attach«:
+dwm_wrap.c:5125: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5125: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5125: Fehler: expected expression before »)« token
+dwm_wrap.c:5136: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_attachstack«:
+dwm_wrap.c:5146: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5146: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5146: Fehler: expected expression before »)« token
+dwm_wrap.c:5157: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_ban«:
+dwm_wrap.c:5167: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5167: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5167: Fehler: expected expression before »)« token
+dwm_wrap.c:5178: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_configure«:
+dwm_wrap.c:5233: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5233: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5233: Fehler: expected expression before »)« token
+dwm_wrap.c:5244: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_detach«:
+dwm_wrap.c:5317: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5317: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5317: Fehler: expected expression before »)« token
+dwm_wrap.c:5328: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_detachstack«:
+dwm_wrap.c:5338: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5338: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5338: Fehler: expected expression before »)« token
+dwm_wrap.c:5349: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_focus«:
+dwm_wrap.c:5450: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5450: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5450: Fehler: expected expression before »)« token
+dwm_wrap.c:5461: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_getclient«:
+dwm_wrap.c:5493: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5493: Fehler: »result« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5512: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_isprotodel«:
+dwm_wrap.c:5588: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5588: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5588: Fehler: expected expression before »)« token
+dwm_wrap.c:5601: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_movemouse«:
+dwm_wrap.c:5755: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5755: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5755: Fehler: expected expression before »)« token
+dwm_wrap.c:5766: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_nexttiled«:
+dwm_wrap.c:5776: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5776: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5776: Fehler: expected expression before »)« token
+dwm_wrap.c:5777: Fehler: »result« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5789: Fehler: expected expression before »)« token
+dwm_wrap.c:5790: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_resize«:
+dwm_wrap.c:5845: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5845: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5845: Fehler: expected expression before »)« token
+dwm_wrap.c:5871: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_setclientstate«:
+dwm_wrap.c:5936: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5936: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:5936: Fehler: expected expression before »)« token
+dwm_wrap.c:5950: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_unban«:
+dwm_wrap.c:6001: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6001: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6001: Fehler: expected expression before »)« token
+dwm_wrap.c:6012: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_unmanage«:
+dwm_wrap.c:6022: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6022: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6022: Fehler: expected expression before »)« token
+dwm_wrap.c:6033: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_updatesizehints«:
+dwm_wrap.c:6064: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6064: Fehler: »arg1« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6064: Fehler: expected expression before »)« token
+dwm_wrap.c:6075: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_stext_get«:
+dwm_wrap.c:6212: Fehler: »stext« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_stext_set«:
+dwm_wrap.c:6222: Fehler: »stext« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_mwfact_get«:
+dwm_wrap.c:6237: Fehler: »mwfact« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_mwfact_set«:
+dwm_wrap.c:6250: Fehler: »mwfact« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_screen_get«:
+dwm_wrap.c:6262: Fehler: »screen« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_screen_set«:
+dwm_wrap.c:6275: Fehler: »screen« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sx_get«:
+dwm_wrap.c:6287: Fehler: »sx« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sx_set«:
+dwm_wrap.c:6300: Fehler: »sx« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sy_get«:
+dwm_wrap.c:6312: Fehler: »sy« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sy_set«:
+dwm_wrap.c:6325: Fehler: »sy« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sw_get«:
+dwm_wrap.c:6337: Fehler: »sw« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sw_set«:
+dwm_wrap.c:6350: Fehler: »sw« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sh_get«:
+dwm_wrap.c:6362: Fehler: »sh« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sh_set«:
+dwm_wrap.c:6375: Fehler: »sh« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_wax_get«:
+dwm_wrap.c:6387: Fehler: »wax« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_wax_set«:
+dwm_wrap.c:6400: Fehler: »wax« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_way_get«:
+dwm_wrap.c:6412: Fehler: »way« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_way_set«:
+dwm_wrap.c:6425: Fehler: »way« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_waw_get«:
+dwm_wrap.c:6437: Fehler: »waw« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_waw_set«:
+dwm_wrap.c:6450: Fehler: »waw« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_wah_get«:
+dwm_wrap.c:6462: Fehler: »wah« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_wah_set«:
+dwm_wrap.c:6475: Fehler: »wah« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_xerrorxlib_get«:
+dwm_wrap.c:6487: Fehler: »xerrorxlib« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_xerrorxlib_set«:
+dwm_wrap.c:6495: Fehler: »xerrorxlib« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_bh_get«:
+dwm_wrap.c:6510: Fehler: »bh« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_bh_set«:
+dwm_wrap.c:6523: Fehler: »bh« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_bpos_get«:
+dwm_wrap.c:6535: Fehler: »bpos« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_bpos_set«:
+dwm_wrap.c:6548: Fehler: »bpos« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_blw_get«:
+dwm_wrap.c:6560: Fehler: »blw« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_blw_set«:
+dwm_wrap.c:6573: Fehler: »blw« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_numlockmask_get«:
+dwm_wrap.c:6585: Fehler: »numlockmask« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_numlockmask_set«:
+dwm_wrap.c:6598: Fehler: »numlockmask« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_handler_get«:
+dwm_wrap.c:6610: Fehler: »handler« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_handler_set«:
+dwm_wrap.c:6618: Fehler: expected identifier or »(« before »)« token
+dwm_wrap.c:6619: Fehler: »inp« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6624: Fehler: »handler« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_wmatom_get«:
+dwm_wrap.c:6639: Fehler: »wmatom« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_wmatom_set«:
+dwm_wrap.c:6653: Fehler: »WMLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6653: Fehler: »wmatom« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_netatom_get«:
+dwm_wrap.c:6668: Fehler: »netatom« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_netatom_set«:
+dwm_wrap.c:6682: Fehler: »NetLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6682: Fehler: »netatom« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_otherwm_get«:
+dwm_wrap.c:6697: Fehler: »otherwm« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_otherwm_set«:
+dwm_wrap.c:6713: Fehler: »otherwm« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_readin_get«:
+dwm_wrap.c:6726: Fehler: »readin« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_readin_set«:
+dwm_wrap.c:6742: Fehler: »readin« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_running_get«:
+dwm_wrap.c:6755: Fehler: »running« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_running_set«:
+dwm_wrap.c:6771: Fehler: »running« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_selscreen_get«:
+dwm_wrap.c:6784: Fehler: »selscreen« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_selscreen_set«:
+dwm_wrap.c:6800: Fehler: »selscreen« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_clients_get«:
+dwm_wrap.c:6813: Fehler: »clients« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_clients_set«:
+dwm_wrap.c:6826: Fehler: »clients« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6826: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6826: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_sel_get«:
+dwm_wrap.c:6838: Fehler: »sel« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_sel_set«:
+dwm_wrap.c:6851: Fehler: »sel« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6851: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6851: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_stack_get«:
+dwm_wrap.c:6863: Fehler: »stack« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_stack_set«:
+dwm_wrap.c:6876: Fehler: »stack« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6876: Fehler: »Client« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6876: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_cursor_get«:
+dwm_wrap.c:6888: Fehler: »cursor« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_cursor_set«:
+dwm_wrap.c:6902: Fehler: »CurLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6902: Fehler: »cursor« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_dpy_get«:
+dwm_wrap.c:6917: Fehler: »dpy« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_dpy_set«:
+dwm_wrap.c:6930: Fehler: »dpy« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_dc_get«:
+dwm_wrap.c:6942: Fehler: »dc« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_dc_set«:
+dwm_wrap.c:6958: Fehler: »dc« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6958: Fehler: »DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:6958: Fehler: expected expression before »)« token
+dwm_wrap.c: In Funktion »_wrap_root_get«:
+dwm_wrap.c:6971: Fehler: »root« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »_wrap_root_set«:
+dwm_wrap.c:6987: Fehler: »root« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c: In Funktion »Init_dwm«:
+dwm_wrap.c:7453: Fehler: »CurNormal« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7454: Fehler: »CurResize« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7455: Fehler: »CurMove« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7456: Fehler: »CurLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7457: Fehler: »ColBorder« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7458: Fehler: »ColFG« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7459: Fehler: »ColBG« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7460: Fehler: »ColLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7461: Fehler: »NetSupported« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7462: Fehler: »NetWMName« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7463: Fehler: »NetLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7464: Fehler: »WMProtocols« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7465: Fehler: »WMDelete« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7466: Fehler: »WMName« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7467: Fehler: »WMState« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7468: Fehler: »WMLast« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7568: Fehler: »free_DC« nicht deklariert (erste Benutzung in dieser Funktion)
+dwm_wrap.c:7602: Fehler: »free_Key« nicht deklariert (erste Benutzung in dieser Funktion)
+make: *** [dwm_wrap.o] Fehler 1
