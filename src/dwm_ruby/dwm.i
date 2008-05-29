@@ -134,3 +134,14 @@ extern void* run_launcher(char* nil);
 extern int maininit();
 extern int mainquit();
 
+
+extern int screen, sx, sy, sw, sh, wax, way, waw, wah;
+extern Bool running;
+extern Client *clients;
+extern Client *sel;
+extern Client *stack;
+extern Cursor cursor[CurLast];
+extern Display *dpy;
+extern DC dc;
+extern Window root;
+

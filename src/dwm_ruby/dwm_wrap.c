@@ -1752,25 +1752,26 @@ int SWIG_Ruby_arity( VALUE proc, int minimal )
 
 #define SWIGTYPE_p_Bool swig_types[0]
 #define SWIGTYPE_p_Client_t swig_types[1]
-#define SWIGTYPE_p_DC swig_types[2]
-#define SWIGTYPE_p_DC_font swig_types[3]
-#define SWIGTYPE_p_Display swig_types[4]
-#define SWIGTYPE_p_Drawable swig_types[5]
-#define SWIGTYPE_p_GC swig_types[6]
-#define SWIGTYPE_p_KeySym swig_types[7]
-#define SWIGTYPE_p_Key_t swig_types[8]
-#define SWIGTYPE_p_Window swig_types[9]
-#define SWIGTYPE_p_XErrorEvent swig_types[10]
-#define SWIGTYPE_p_XEvent swig_types[11]
-#define SWIGTYPE_p_XFontSet swig_types[12]
-#define SWIGTYPE_p_XFontStruct swig_types[13]
-#define SWIGTYPE_p_XWindowAttributes swig_types[14]
-#define SWIGTYPE_p_char swig_types[15]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[16]
-#define SWIGTYPE_p_unsigned_long swig_types[17]
-#define SWIGTYPE_p_void swig_types[18]
-static swig_type_info *swig_types[20];
-static swig_module_info swig_module = {swig_types, 19, 0, 0, 0, 0};
+#define SWIGTYPE_p_Cursor swig_types[2]
+#define SWIGTYPE_p_DC swig_types[3]
+#define SWIGTYPE_p_DC_font swig_types[4]
+#define SWIGTYPE_p_Display swig_types[5]
+#define SWIGTYPE_p_Drawable swig_types[6]
+#define SWIGTYPE_p_GC swig_types[7]
+#define SWIGTYPE_p_KeySym swig_types[8]
+#define SWIGTYPE_p_Key_t swig_types[9]
+#define SWIGTYPE_p_Window swig_types[10]
+#define SWIGTYPE_p_XErrorEvent swig_types[11]
+#define SWIGTYPE_p_XEvent swig_types[12]
+#define SWIGTYPE_p_XFontSet swig_types[13]
+#define SWIGTYPE_p_XFontStruct swig_types[14]
+#define SWIGTYPE_p_XWindowAttributes swig_types[15]
+#define SWIGTYPE_p_char swig_types[16]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[17]
+#define SWIGTYPE_p_unsigned_long swig_types[18]
+#define SWIGTYPE_p_void swig_types[19]
+static swig_type_info *swig_types[21];
+static swig_module_info swig_module = {swig_types, 20, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1818,7 +1819,7 @@ static VALUE mDwm;
  *
  * To understand everything else, start reading main().
  */
-#include <dwm.h>
+#include "dwm.h"
 
 
 #include <limits.h>
@@ -6227,11 +6228,453 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_screen_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(screen));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_screen_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""screen""' of type '""int""'");
+    }
+    screen = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sx_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(sx));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sx_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""sx""' of type '""int""'");
+    }
+    sx = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sy_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(sy));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sy_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""sy""' of type '""int""'");
+    }
+    sy = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sw_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(sw));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sw_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""sw""' of type '""int""'");
+    }
+    sw = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sh_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(sh));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sh_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""sh""' of type '""int""'");
+    }
+    sh = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_wax_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(wax));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_wax_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""wax""' of type '""int""'");
+    }
+    wax = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_way_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(way));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_way_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""way""' of type '""int""'");
+    }
+    way = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_waw_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(waw));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_waw_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""waw""' of type '""int""'");
+    }
+    waw = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_wah_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_From_int((int)(wah));
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_wah_set(VALUE self, VALUE _val) {
+  {
+    int val;
+    int res = SWIG_AsVal_int(_val, &val);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""wah""' of type '""int""'");
+    }
+    wah = (int)(val);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_running_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(&running), SWIGTYPE_p_Bool,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_running_set(VALUE self, VALUE _val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_Bool,  0 );
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""running""' of type '""Bool""'");
+    }
+    if (!argp) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""running""' of type '""Bool""'");
+    } else {
+      running = *((Bool *)(argp));
+    }
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_clients_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(clients), SWIGTYPE_p_Client_t,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_clients_set(VALUE self, VALUE _val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_Client_t,  0 );  
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""clients""' of type '""Client *""'");
+    }
+    clients = (Client *)(argp);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sel_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(sel), SWIGTYPE_p_Client_t,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_sel_set(VALUE self, VALUE _val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_Client_t,  0 );  
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""sel""' of type '""Client *""'");
+    }
+    sel = (Client *)(argp);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_stack_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(stack), SWIGTYPE_p_Client_t,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_stack_set(VALUE self, VALUE _val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_Client_t,  0 );  
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""stack""' of type '""Client *""'");
+    }
+    stack = (Client *)(argp);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_cursor_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(cursor), SWIGTYPE_p_Cursor,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_cursor_set(VALUE self, VALUE _val) {
+  {
+    Cursor *inp = 0;
+    int res = SWIG_ConvertPtr(_val, SWIG_as_voidptrptr(&inp), SWIGTYPE_p_Cursor,  0 );
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""cursor""' of type '""Cursor [CurLast]""'");
+    } else if (inp) {
+      size_t ii = 0;
+      for (; ii < (size_t)CurLast; ++ii) cursor[ii] = inp[ii];
+    } else {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""cursor""' of type '""Cursor [CurLast]""'");
+    }
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_dpy_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(dpy), SWIGTYPE_p_Display,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_dpy_set(VALUE self, VALUE _val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_Display,  0 );  
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""dpy""' of type '""Display *""'");
+    }
+    dpy = (Display *)(argp);
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_dc_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(&dc), SWIGTYPE_p_DC,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_dc_set(VALUE self, VALUE _val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_DC,  0 );
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""dc""' of type '""DC""'");
+    }
+    if (!argp) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""dc""' of type '""DC""'");
+    } else {
+      dc = *((DC *)(argp));
+    }
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_root_get(VALUE self) {
+  VALUE _val;
+  
+  _val = SWIG_NewPointerObj(SWIG_as_voidptr(&root), SWIGTYPE_p_Window,  0 );
+  return _val;
+}
+
+
+SWIGINTERN VALUE
+_wrap_root_set(VALUE self, VALUE _val) {
+  {
+    void *argp = 0;
+    int res = SWIG_ConvertPtr(_val, &argp, SWIGTYPE_p_Window,  0 );
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in variable '""root""' of type '""Window""'");
+    }
+    if (!argp) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""root""' of type '""Window""'");
+    } else {
+      root = *((Window *)(argp));
+    }
+  }
+  return _val;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_Bool = {"_p_Bool", "Bool *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Client_t = {"_p_Client_t", "Client_t *|struct Client_t *|Client *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Cursor = {"_p_Cursor", "Cursor *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_DC = {"_p_DC", "DC *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_DC_font = {"_p_DC_font", "DC_font *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Display = {"_p_Display", "Display *", 0, 0, (void*)0, 0};
@@ -6253,6 +6696,7 @@ static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Bool,
   &_swigt__p_Client_t,
+  &_swigt__p_Cursor,
   &_swigt__p_DC,
   &_swigt__p_DC_font,
   &_swigt__p_Display,
@@ -6274,6 +6718,7 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_Bool[] = {  {&_swigt__p_Bool, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Client_t[] = {  {&_swigt__p_Client_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Cursor[] = {  {&_swigt__p_Cursor, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_DC[] = {  {&_swigt__p_DC, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_DC_font[] = {  {&_swigt__p_DC_font, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Display[] = {  {&_swigt__p_Display, 0, 0, 0},{0, 0, 0, 0}};
@@ -6295,6 +6740,7 @@ static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0,
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Bool,
   _swigc__p_Client_t,
+  _swigc__p_Cursor,
   _swigc__p_DC,
   _swigc__p_DC_font,
   _swigc__p_Display,
@@ -6775,5 +7221,39 @@ SWIGEXPORT void Init_dwm(void) {
   rb_define_module_function(mDwm, "run_launcher", _wrap_run_launcher, -1);
   rb_define_module_function(mDwm, "maininit", _wrap_maininit, -1);
   rb_define_module_function(mDwm, "mainquit", _wrap_mainquit, -1);
+  rb_define_singleton_method(mDwm, "screen", _wrap_screen_get, 0);
+  rb_define_singleton_method(mDwm, "screen=", _wrap_screen_set, 1);
+  rb_define_singleton_method(mDwm, "sx", _wrap_sx_get, 0);
+  rb_define_singleton_method(mDwm, "sx=", _wrap_sx_set, 1);
+  rb_define_singleton_method(mDwm, "sy", _wrap_sy_get, 0);
+  rb_define_singleton_method(mDwm, "sy=", _wrap_sy_set, 1);
+  rb_define_singleton_method(mDwm, "sw", _wrap_sw_get, 0);
+  rb_define_singleton_method(mDwm, "sw=", _wrap_sw_set, 1);
+  rb_define_singleton_method(mDwm, "sh", _wrap_sh_get, 0);
+  rb_define_singleton_method(mDwm, "sh=", _wrap_sh_set, 1);
+  rb_define_singleton_method(mDwm, "wax", _wrap_wax_get, 0);
+  rb_define_singleton_method(mDwm, "wax=", _wrap_wax_set, 1);
+  rb_define_singleton_method(mDwm, "way", _wrap_way_get, 0);
+  rb_define_singleton_method(mDwm, "way=", _wrap_way_set, 1);
+  rb_define_singleton_method(mDwm, "waw", _wrap_waw_get, 0);
+  rb_define_singleton_method(mDwm, "waw=", _wrap_waw_set, 1);
+  rb_define_singleton_method(mDwm, "wah", _wrap_wah_get, 0);
+  rb_define_singleton_method(mDwm, "wah=", _wrap_wah_set, 1);
+  rb_define_singleton_method(mDwm, "running", _wrap_running_get, 0);
+  rb_define_singleton_method(mDwm, "running=", _wrap_running_set, 1);
+  rb_define_singleton_method(mDwm, "clients", _wrap_clients_get, 0);
+  rb_define_singleton_method(mDwm, "clients=", _wrap_clients_set, 1);
+  rb_define_singleton_method(mDwm, "sel", _wrap_sel_get, 0);
+  rb_define_singleton_method(mDwm, "sel=", _wrap_sel_set, 1);
+  rb_define_singleton_method(mDwm, "stack", _wrap_stack_get, 0);
+  rb_define_singleton_method(mDwm, "stack=", _wrap_stack_set, 1);
+  rb_define_singleton_method(mDwm, "cursor", _wrap_cursor_get, 0);
+  rb_define_singleton_method(mDwm, "cursor=", _wrap_cursor_set, 1);
+  rb_define_singleton_method(mDwm, "dpy", _wrap_dpy_get, 0);
+  rb_define_singleton_method(mDwm, "dpy=", _wrap_dpy_set, 1);
+  rb_define_singleton_method(mDwm, "dc", _wrap_dc_get, 0);
+  rb_define_singleton_method(mDwm, "dc=", _wrap_dc_set, 1);
+  rb_define_singleton_method(mDwm, "root", _wrap_root_get, 0);
+  rb_define_singleton_method(mDwm, "root=", _wrap_root_set, 1);
 }
 

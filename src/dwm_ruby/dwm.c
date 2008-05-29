@@ -3,7 +3,6 @@
 /* variables */
 char stext[256];
 double mwfact;
-int screen, sx, sy, sw, sh, wax, way, waw, wah;
 int (*xerrorxlib)(Display *, XErrorEvent *);
 unsigned int bh, bpos;
 unsigned int blw = 0;
@@ -25,15 +24,7 @@ void (*handler[LASTEvent]) (XEvent *) = {
 };
 Atom wmatom[WMLast], netatom[NetLast];
 Bool otherwm, readin;
-Bool running = True;
 Bool selscreen = True;
-Client *clients = NULL;
-Client *sel = NULL;
-Client *stack = NULL;
-Cursor cursor[CurLast];
-Display *dpy;
-DC dc = {0};
-Window root;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -931,6 +922,12 @@ int
 maininit() 
 {
     //pthread_t run_thread;
+
+    /* Set variabel values */
+    running = True;
+    clients = NULL;
+    sel = NULL;
+    stack = NULL;
 
 	setlocale(LC_CTYPE, "de_DE.UTF-8");
 	if(!(dpy = XOpenDisplay(0)))

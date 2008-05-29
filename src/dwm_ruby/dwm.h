@@ -1,3 +1,5 @@
+#ifndef DWM_H
+#define DWM_H
 /* See LICENSE file for copyright and license details.
  *
  * dynamic window manager is designed like any other X client as well. It is
@@ -51,10 +53,10 @@
 
 
 /* enums */
-extern enum { CurNormal, CurResize, CurMove, CurLast };	/* cursor */
-extern enum { ColBorder, ColFG, ColBG, ColLast };		/* color */
-extern enum { NetSupported, NetWMName, NetLast };		/* EWMH atoms */
-extern enum { WMProtocols, WMDelete, WMName, WMState, WMLast };/* default atoms */
+enum { CurNormal, CurResize, CurMove, CurLast };	/* cursor */
+enum { ColBorder, ColFG, ColBG, ColLast };		/* color */
+enum { NetSupported, NetWMName, NetLast };		/* EWMH atoms */
+enum { WMProtocols, WMDelete, WMName, WMState, WMLast };/* default atoms */
 
 /* typedefs */
 typedef struct Client_t Client;
@@ -148,3 +150,14 @@ extern void* run_launcher(char* nil);
 extern int maininit();
 extern int mainquit();
 
+int screen, sx, sy, sw, sh, wax, way, waw, wah;
+Bool running;
+Client *clients;
+Client *sel;
+Client *stack;
+Cursor cursor[CurLast];
+Display *dpy;
+DC dc; 
+Window root;
+
+#endif
