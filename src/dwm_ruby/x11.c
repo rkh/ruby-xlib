@@ -223,7 +223,8 @@ int main() {
     printf("We have a screen: %d  %d %d %d\n", winman.sx, winman.sy, winman.sw, winman.sh);
     printf("               ... and a window area: %d %d %d %d\n", winman.wax, winman.way, winman.waw, winman.wah);
     printf("Start query NOW!\n");fflush(stdout);
-    winman.clients = query_clients(&winman);
+//    winman.clients = query_clients(&winman);
+    query_clients(&winman); 
     printf("Success! We should have clients now!\n");
     for(i=0; i < winman.clients_num; i++) {
         printf("Trying client number %d name: %s \n", i, winman.clients[i].name);

@@ -1,15 +1,7 @@
-#ifndef X11_RUBY_H
-#define X11_RUBY_H
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <X11/keysym.h>
-#include <X11/Xatom.h>
-#include <X11/Xlib.h>
-#include <X11/Xproto.h>
-#include <X11/Xutil.h>
-#include <locale.h>
+%module x11
+%{
+#include "x11.h"
+%}
 
 enum { WMProtocols, WMDelete, WMName, WMState, WMLast };/* default atoms */
 enum { NetSupported, NetWMName, NetLast };      /* EWMH atoms */
@@ -46,13 +38,12 @@ typedef struct WM_t {
     int (*xerrorxlib)(Display *, XErrorEvent *);
     Atom wmatom[WMLast];
     Atom netatom[NetLast];
-    unsigned int clients_num;
     Client* clients;
+    unsigned int clients_num;
 } WM;
 
-void resize(WM* winman, Client *c, int x, int y, int w, int h, Bool sizehints);
-Client* query_clients(WM* winman);
-WM Init_WM();
-void Destroy_WM(WM* winman);
+extern void resize(WM* winman, Client *c, int x, int y, int w, int h, Bool sizehints);
+extern Client* query_clients(WM* winman);
+extern WM Init_WM();
+extern void Destroy_WM(WM* winman);
 
-#endif
