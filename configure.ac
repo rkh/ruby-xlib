@@ -39,7 +39,7 @@ AC_CONFIG_FILES([
    m4/Makefile
    src/Makefile
    src/edje/Makefile
-   src/dwm_ruby/Makefile
+   src/dwm/Makefile
    src/ruby/Makefile
    src/ruby/cruby/Makefile
 ])
