@@ -9,7 +9,7 @@ require 'optparse'
 
 def fullscreen()
     begin
-        %[xrandr][/ *(\d+x\d+).*\*/]
+        %x["xrandr"][/ *(\d+x\d+).*\*/]
         @config[:geo] = $1.split('x').collect { |s| s.to_i }
     rescue        
         puts "No xrandr - defaulting"
