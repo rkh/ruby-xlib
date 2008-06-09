@@ -15,6 +15,7 @@ enum { WMProtocols, WMDelete, WMName, WMState, WMLast };/* default atoms */
 enum { NetSupported, NetWMName, NetLast };      /* EWMH atoms */
 
 typedef struct Client_t Client;
+typedef struct WM_t WM;
 
 struct Client_t {
     char name[256];
@@ -36,7 +37,7 @@ typedef struct Key_t {
     void (*func)(const char *arg);
 } Key;
 
-typedef struct WM_t {
+struct WM_t {
     int screen, sx, sy, sw, sh, wax, way, waw, wah;
     Client *selected;
     Client* order;
@@ -49,11 +50,11 @@ typedef struct WM_t {
     Atom netatom[NetLast];
     unsigned int clients_num;
     Client* clients;
-} WM;
+};
 
 void resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints);
 Client* query_clients(WM* winman);
-WM Init_WM();
+WM* Init_WM();
 void Destroy_WM(WM* winman);
 
 #endif

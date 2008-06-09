@@ -185,26 +185,27 @@ Client* query_clients(WM* winman) {
     return c;
 }
 
-WM Init_WM() {
-    WM windowmanager;
+WM* Init_WM() {
+    WM* windowmanager;
+    windowmanager = calloc(1,sizeof(WM));
     setlocale(LC_CTYPE, "de_DE.UTF-8");
-    if(!(windowmanager.dpy = XOpenDisplay(0)))
+    if(!(windowmanager->dpy = XOpenDisplay(0)))
         printf("Cannot open Display!!\n");fflush(stdout);        
-    windowmanager.screen = DefaultScreen(windowmanager.dpy);
-    windowmanager.root = RootWindow(windowmanager.dpy, windowmanager.screen);
+    windowmanager->screen = DefaultScreen(windowmanager->dpy);
+    windowmanager->root = RootWindow(windowmanager->dpy, windowmanager->screen);
     
     Bool otherwm = False;
     XSetErrorHandler(xerrorstart);
     /* this causes an error if some other window manager is running */
-    XSelectInput(windowmanager.dpy, windowmanager.root, SubstructureRedirectMask);
-    XSync(windowmanager.dpy, False);
+    XSelectInput(windowmanager->dpy, windowmanager->root, SubstructureRedirectMask);
+    XSync(windowmanager->dpy, False);
     if(otherwm)
         printf("Another WM is running!!\n");fflush(stdout);
-    XSync(windowmanager.dpy, False);
+    XSync(windowmanager->dpy, False);
     XSetErrorHandler(NULL);
-    windowmanager.xerrorxlib = XSetErrorHandler(xerror);
-    XSync(windowmanager.dpy, False);
-    setup(&windowmanager);
+    windowmanager->xerrorxlib = XSetErrorHandler(xerror);
+    XSync(windowmanager->dpy, False);
+    setup(windowmanager);
     return windowmanager;
 }
 
@@ -216,24 +217,25 @@ void Destroy_WM(WM* winman) {
 }
 
 int main() {
-    WM winman;
+    WM* winman;   
     int i;
 
     printf("Start to init NOW!\n");fflush(stdout);
     winman = Init_WM();
-    printf("We have a screen: %d  %d %d %d\n", winman.sx, winman.sy, winman.sw, winman.sh);
-    printf("               ... and a window area: %d %d %d %d\n", winman.wax, winman.way, winman.waw, winman.wah);
+    printf("We have a screen: %d  %d %d %d\n", winman->sx, winman->sy, winman->sw, winman->sh);
+    printf("               ... and a window area: %d %d %d %d\n", winman->wax, winman->way, winman->waw, winman->wah);
     printf("Start query NOW!\n");fflush(stdout);
-    winman.clients = query_clients(&winman);
+    winman->clients = query_clients(winman);
     //query_clients(&winman); 
     printf("Success! We should have clients now!\n");
-    for(i=0; i < winman.clients_num; i++) {
-        printf("Trying client number %d name: %s \n", i, winman.clients[i].name);
+    printf("And they should all have the WM ptr...: %d %d %d %d\n", winman->clients[0].manager->sx, winman->clients[0].manager->sy, winman->clients[0].manager->sw, winman->clients[0].manager->sh);
+    for(i=0; i < winman->clients_num; i++) {
+        printf("Trying client number %d name: %s \n", i, winman->clients[i].name);
         printf("Trying clienter number %d geo: %d %d %d %d\n", 
-                i, winman.clients[0].x, winman.clients[0].y, winman.clients[i].w, winman.clients[0].h);
+                i, winman->clients[0].x, winman->clients[0].y, winman->clients[i].w, winman->clients[0].h);
     }
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
-    resize(&winman, &winman.clients[0], winman.wax, winman.way, winman.waw, winman.wah, 0);
+    resize(winman, &winman->clients[0], winman->wax, winman->way, winman->waw, winman->wah, 0);
     printf("Finish for now...\n");
     return 0;
 }
