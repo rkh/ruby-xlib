@@ -25,6 +25,7 @@ struct Client_t {
     long flags;
     unsigned int border, oldborder;
     Bool isbanned, isfixed, ismax, isfloating, wasfloating;
+    WM *manager;
     Window win;
 };
 

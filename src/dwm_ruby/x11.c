@@ -64,6 +64,7 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XEvent ev;
 
     c->win = w;
+    c->manager = winman;
     c->x = wa->x;
     c->y = wa->y;
     c->w = wa->width;
