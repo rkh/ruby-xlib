@@ -115,12 +115,6 @@ static VALUE wm_num_clients(VALUE self) {
     return INT2NUM(newwm->clients_num);
 }
 
-static VALUE wm_clients(VALUE self) {
-    WM *newwm;
-    Data_Get_Struct(self, WM, newwm);
-    return rb_ary_new4(newwm->clients_num, newwm->clients);
-}
-
 static void client_free(void *p) {
     free(p);
 }
@@ -131,6 +125,29 @@ static VALUE client_alloc(VALUE klass) {
     c = (Client*)calloc(1, sizeof(Client));
     obj = Data_Wrap_Struct(klass, 0, client_free, c);
     return obj;
+}
+
+static VALUE client_make(VALUE klass, Client* c) {
+    VALUE obj;
+    obj = Data_Wrap_Struct(klass, 0, client_free, c);
+    return obj;
+}
+
+static VALUE wm_clients(VALUE self) {
+    WM *newwm;
+    //Client *c;
+    VALUE obj;
+    VALUE arr;
+    int i;
+
+    arr = rb_ary_new();
+    Data_Get_Struct(self, WM, newwm);
+    for (i=0; i<newwm->clients_num; i++) {
+        obj = client_make(cClient, &newwm->clients[i]);
+        rb_ary_push(arr, obj);
+    }
+    return arr;
+//    return rb_ary_new4(newwm->clients_num, newwm->clients);
 }
 
 static VALUE client_name(VALUE self) {
@@ -204,7 +221,7 @@ static VALUE client_size(VALUE self) {
     sizes[1] = c->y;
     sizes[2] = c->w;
     sizes[3] = c->h;
-    return rb_ary_new4(4, sizes);
+    return rb_ary_new3(4, INT2NUM(sizes[0]), INT2NUM(sizes[1]), INT2NUM(sizes[2]), INT2NUM(sizes[3]));
 }
 
     
@@ -258,5 +275,10 @@ void Init_x11() {
     rb_define_method(cClient, "y", client_y, 0);
     rb_define_method(cClient, "w", client_w, 0);
     rb_define_method(cClient, "h", client_h, 0);
+    rb_define_method(cClient, "x=", client_x_set, 1);
+    rb_define_method(cClient, "y=", client_y_set, 1);
+    rb_define_method(cClient, "w=", client_w_set, 1);
+    rb_define_method(cClient, "h=", client_h_set, 1);
 }
+
 
