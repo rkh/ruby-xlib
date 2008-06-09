@@ -112,6 +112,32 @@ void raise_client(Client* c) {
     XSync(c->manager->dpy, False);
 }
 
+void process_event(WM* winman) {
+    XEvent ev;
+    XWindowAttributes wa;
+    int i,j;
+
+    if (XPending(winman->dpy))
+        XNextEvent(dpy, &ev);
+        switch (ev.type) {
+            case XMapRequestEvent || XCreateWindowEvent:
+                winman->clients_num += 1;
+                // remember: if realloc fails, it keeps the origin-block intact, 
+                // so we can just do it directly :)
+                winman->clients = realloc(winman->clients, sizeof(clients))
+                manage(winman, ev.window, &wa, winman->clients[clients_num-1]);
+                break;
+            case XUnmapEvent || XDestroyWindowEvent:
+                for(i=0; i<winman->clients_num; i++)
+                    if (winman->clients[i].win == ev.window) {
+                        winman->clients_num -= 1;
+                        for(j=i+1; j<winman->clients_num; j++)
+                            winman->clients[j-1] = winman->clients[j];
+                    }
+                break;
+        }
+}
+
 void
 resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints) {
 	XWindowChanges wc;

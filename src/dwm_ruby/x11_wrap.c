@@ -115,6 +115,12 @@ static VALUE wm_num_clients(VALUE self) {
     return INT2NUM(newwm->clients_num);
 }
 
+static VALUE wm_selected(VALUE self) {
+    WM *newwm;
+    Date_Get_Struct(self, WM, newwm);
+    return client_make(cClient, newwm->selected);
+}
+
 static void client_free(void *p) {
     free(p);
 }
@@ -258,6 +264,7 @@ void Init_x11() {
     rb_define_alloc_func(cClient, client_alloc);
 
     rb_define_method(cWM, "query", wm_query, 0);
+    rb_define_method(cWM, "selected", wm_selected, 0);
     rb_define_method(cWM, "screenx", wm_sx, 0);
     rb_define_method(cWM, "screeny", wm_sy, 0);
     rb_define_method(cWM, "screenw", wm_sw, 0);
