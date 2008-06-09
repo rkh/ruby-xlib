@@ -118,22 +118,25 @@ void process_event(WM* winman) {
     int i,j;
 
     if (XPending(winman->dpy))
-        XNextEvent(dpy, &ev);
+        XNextEvent(winman->dpy, &ev);
         switch (ev.type) {
-            case XMapRequestEvent || XCreateWindowEvent:
+            case (MapRequest):
                 winman->clients_num += 1;
                 // remember: if realloc fails, it keeps the origin-block intact, 
                 // so we can just do it directly :)
-                winman->clients = realloc(winman->clients, sizeof(clients))
-                manage(winman, ev.window, &wa, winman->clients[clients_num-1]);
+                winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
+                manage(winman, ev.xany.window, &wa, &winman->clients[winman->clients_num-1]);
                 break;
-            case XUnmapEvent || XDestroyWindowEvent:
+            case (UnmapNotify || DestroyNotify):
                 for(i=0; i<winman->clients_num; i++)
-                    if (winman->clients[i].win == ev.window) {
+                    if (winman->clients[i].win == ev.xany.window) {
                         winman->clients_num -= 1;
                         for(j=i+1; j<winman->clients_num; j++)
                             winman->clients[j-1] = winman->clients[j];
+                        winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
                     }
+                break;
+            default:
                 break;
         }
 }

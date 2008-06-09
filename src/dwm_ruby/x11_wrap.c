@@ -2,6 +2,7 @@
 #include <x11.h>
 
 VALUE mrubyx11, cClient, cKey, cWM;
+static VALUE client_make(VALUE klass, Client* c); // I need this alot
 
 // Allocate a new WindowManager object
 // using the supplied Init_WM
@@ -117,7 +118,7 @@ static VALUE wm_num_clients(VALUE self) {
 
 static VALUE wm_selected(VALUE self) {
     WM *newwm;
-    Date_Get_Struct(self, WM, newwm);
+    Data_Get_Struct(self, WM, newwm);
     return client_make(cClient, newwm->selected);
 }
 
