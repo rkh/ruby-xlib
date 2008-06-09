@@ -106,7 +106,7 @@ void raise_client(Client* c) {
     //XSelectInput(c->manager->dpy, c->win, EnterWindowMask | FocusChangeMask
     //        | PropertyChangeMask | StructureNotifyMask);
     //XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
-    //XMapWindow(c->manager->dpy, c->win);
+    XMapWindow(c->manager->dpy, c->win);
     c->manager->selected = c;
     XRaiseWindow(c->manager->dpy, c->win);
     XSync(c->manager->dpy, False);
@@ -255,8 +255,8 @@ void Destroy_WM(WM* winman) {
     XSetInputFocus(winman->dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
     XSync(winman->dpy, False);
     XCloseDisplay(winman->dpy);
-    free(winman->clients);
-    free(winman);
+    //free(winman->clients); //Doesn't seem to work -> SEGFAULTS    
+    //free(winman);
 }
 
 int main() {
