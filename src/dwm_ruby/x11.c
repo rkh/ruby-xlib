@@ -62,9 +62,16 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     Status rettrans;
     long data[] = {NormalState, None};
     XEvent ev;
+    XClassHint ch = { 0 };
 
     c->win = w;
     c->manager = winman;
+    XGetClassHint(winman->dpy, c->win, &ch);
+    snprintf(c->name, sizeof(char)*256, "%s|%s",
+        ch.res_class ? ch.res_class : "",
+        ch.res_name ? ch.res_name : "");
+    if(ch.res_class) XFree(ch.res_class);
+    if(ch.res_name) XFree(ch.res_name);
     c->x = wa->x;
     c->y = wa->y;
     c->w = wa->width;
