@@ -100,6 +100,18 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XSync(winman->dpy, False);
 }
 
+void raise(Client* c) {
+    //XWindowChanges wc;
+    //XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    //XSelectInput(c->manager->dpy, c->win, EnterWindowMask | FocusChangeMask
+    //        | PropertyChangeMask | StructureNotifyMask);
+    //XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
+    //XMapWindow(c->manager->dpy, c->win);
+    c->manager->selected = c;
+    XRaiseWindow(c->manager->dpy, c->win);
+    XSync(c->manager->dpy, False);
+}
+
 void
 resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints) {
 	XWindowChanges wc;
@@ -225,19 +237,29 @@ int main() {
     printf("Start to init NOW!\n");fflush(stdout);
     winman = Init_WM();
     printf("We have a screen: %d  %d %d %d\n", winman->sx, winman->sy, winman->sw, winman->sh);
-    printf("               ... and a window area: %d %d %d %d\n", winman->wax, winman->way, winman->waw, winman->wah);
+    printf("         ... and a window area: %d %d %d %d\n", winman->wax, winman->way, winman->waw, winman->wah);
     printf("Start query NOW!\n");fflush(stdout);
     winman->clients = query_clients(winman);
     //query_clients(&winman); 
     printf("Success! We should have clients now!\n");
-    printf("And they should all have the WM ptr...: %d %d %d %d\n", winman->clients[0].manager->sx, winman->clients[0].manager->sy, winman->clients[0].manager->sw, winman->clients[0].manager->sh);
+    printf("         And they should all have the WM ptr... (trying just the first): %d %d %d %d\n", 
+            winman->clients[0].manager->sx, winman->clients[0].manager->sy, 
+            winman->clients[0].manager->sw, winman->clients[0].manager->sh);
     for(i=0; i < winman->clients_num; i++) {
-        printf("Trying client number %d name: %s \n", i, winman->clients[i].name);
-        printf("Trying clienter number %d geo: %d %d %d %d\n", 
+        printf("                  Trying client number %d name: %s \n", i, winman->clients[i].name);
+        printf("                           Geo: %d %d %d %d\n", 
                 i, winman->clients[0].x, winman->clients[0].y, winman->clients[i].w, winman->clients[0].h);
     }
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
     resize(winman, &winman->clients[0], winman->wax, winman->way, winman->waw, winman->wah, 0);
+
+    printf("Try to raise in cycles as well...\n");    
+    for(i=0; i < winman->clients_num; i++) {
+        raise(&winman->clients[i]);
+        printf("         Client %d should be raised now...\n", i);fflush(stdout);        
+        usleep(1000000);
+    }
+
     printf("Finish for now...\n");
     return 0;
 }
