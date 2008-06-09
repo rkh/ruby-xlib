@@ -6,7 +6,7 @@ VALUE mrubyx11, cClient, cKey, cWM;
 // Allocate a new WindowManager object
 // using the supplied Init_WM
 static VALUE wm_alloc(VALUE klass) {
-    WM newwm;
+    WM* newwm;
     VALUE obj;
     newwm = Init_WM();
     obj = Data_Wrap_Struct(klass, 0, Destroy_WM, newwm);
