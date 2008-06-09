@@ -100,7 +100,7 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XSync(winman->dpy, False);
 }
 
-void raise(Client* c) {
+void raise_client(Client* c) {
     //XWindowChanges wc;
     //XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
     //XSelectInput(c->manager->dpy, c->win, EnterWindowMask | FocusChangeMask
@@ -255,7 +255,7 @@ int main() {
 
     printf("Try to raise in cycles as well...\n");    
     for(i=0; i < winman->clients_num; i++) {
-        raise(&winman->clients[i]);
+        raise_client(&winman->clients[i]);
         printf("         Client %d should be raised now...\n", i);fflush(stdout);        
         usleep(1000000);
     }

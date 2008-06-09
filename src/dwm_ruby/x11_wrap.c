@@ -224,7 +224,12 @@ static VALUE client_size(VALUE self) {
     return rb_ary_new3(4, INT2NUM(sizes[0]), INT2NUM(sizes[1]), INT2NUM(sizes[2]), INT2NUM(sizes[3]));
 }
 
-    
+static VALUE client_raise(VALUE self) {
+    Client *c;
+    Data_Get_Struct(self, Client, c);
+    raise_client(c);
+    return client_make(cClient, c);
+}
 
 static VALUE client_size_set(VALUE self, VALUE valarray) {
     Client *c;
@@ -279,6 +284,7 @@ void Init_x11() {
     rb_define_method(cClient, "y=", client_y_set, 1);
     rb_define_method(cClient, "w=", client_w_set, 1);
     rb_define_method(cClient, "h=", client_h_set, 1);
+    rb_define_method(cClient, "raise", client_raise, 0);
 }
 
 
