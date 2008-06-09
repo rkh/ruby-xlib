@@ -256,7 +256,7 @@ void Destroy_WM(WM* winman) {
     XSync(winman->dpy, False);
     XCloseDisplay(winman->dpy);
     free(winman->clients); 
-    //free(winman);
+    free(winman);
 }
 
 int main() {
