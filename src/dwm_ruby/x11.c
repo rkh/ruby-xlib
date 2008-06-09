@@ -214,6 +214,8 @@ void Destroy_WM(WM* winman) {
     XSetInputFocus(winman->dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
     XSync(winman->dpy, False);
     XCloseDisplay(winman->dpy);
+    free(winman->clients);
+    free(winman);
 }
 
 int main() {
