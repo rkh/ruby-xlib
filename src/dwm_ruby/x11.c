@@ -107,12 +107,33 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XSync(winman->dpy, False);
 }
 
+void border_client(Client* c, int w) {
+    XWindowChanges wc;
+
+    c->oldborder = c->border;
+    c->border = w;
+    wc.border_width = w;
+    XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
+    XSync(c->manager->dpy, False);
+}
+
+void unborder_client(Client* c) {
+    XWindowChanges wc;
+
+    c->border = c->oldborder;
+    wc.border_width = c->border;
+    XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
+    XSync(c->manager->dpy, False);
+}
+
 void raise_client(Client* c) {
     //XWindowChanges wc;
     //XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
     //XSelectInput(c->manager->dpy, c->win, EnterWindowMask | FocusChangeMask
     //        | PropertyChangeMask | StructureNotifyMask);
-    //XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
+    XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
     XMapWindow(c->manager->dpy, c->win);
     c->manager->selected = c;
     XRaiseWindow(c->manager->dpy, c->win);
@@ -304,11 +325,13 @@ int main() {
     }
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
     resize(winman, &winman->clients[0], winman->wax, winman->way, winman->waw, winman->wah, 0);
+    printf("Good. Set a border around our main client now...");
+    border_client(&winman->clients[0], 9);
 
-    printf("Try to raise in cycles as well...\n");    
+    printf("Try to raise in cycles as well...\n");
     for(i=0; i < winman->clients_num; i++) {
         raise_client(&winman->clients[i]);
-        printf("         Client %d should be raised now...\n", i);fflush(stdout);        
+        printf("         Client %d should be raised now...\n", i);fflush(stdout);
         usleep(1000000);
     }
 

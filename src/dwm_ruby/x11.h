@@ -57,6 +57,8 @@ Client* query_clients(WM* winman);
 void raise_client(Client* c);
 void ban_client(Client* c);
 void unban_client(Client* c);
+void unborder_client(Client* c);
+void border_client(Client* c, int w);
 WM* Init_WM();
 void Destroy_WM(WM* winman);
 

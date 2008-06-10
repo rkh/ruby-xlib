@@ -163,6 +163,26 @@ static VALUE client_name(VALUE self) {
     return rb_str_new2(c->name);
 }
 
+static VALUE client_border(VALUE self) {
+    Client* c;
+    Data_Get_Struct(self, Client, c);
+    return INT2NUM(c->border);
+}
+
+static VALUE client_border_set(VALUE self, VALUE width) {
+    Client* c;
+    Data_Get_Struct(self, Client, c);
+    border_client(c, NUM2INT(width));
+    return Qnil;
+}
+
+static VALUE client_border_dset(VALUE self) {
+    Client* c;
+    Data_Get_Struct(self, Client, c);
+    unborder_client(c);
+    return Qnil;
+}
+
 static VALUE client_x(VALUE self) {
     Client *c;
     Data_Get_Struct(self, Client, c);
@@ -309,6 +329,9 @@ void Init_x11() {
     rb_define_method(cClient, "raise", client_raise, 0);
     rb_define_method(cClient, "ban", client_ban, 0);
     rb_define_method(cClient, "unban", client_unban, 0);
+    rb_define_method(cClient, "border", client_border, 0);
+    rb_define_method(cClient, "border=", client_border_set, 1);
+    rb_define_method(cClient, "border_reset", client_border_dset, 0);
 }
 
 
