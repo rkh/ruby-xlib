@@ -55,6 +55,8 @@ struct WM_t {
 void resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints);
 Client* query_clients(WM* winman);
 void raise_client(Client* c);
+void ban_client(Client* c);
+void unban_client(Client* c);
 WM* Init_WM();
 void Destroy_WM(WM* winman);
 

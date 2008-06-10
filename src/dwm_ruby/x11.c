@@ -212,6 +212,22 @@ resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints) {
 	}
 }
 
+void ban_client(Client* c) {
+    if (c->isbanned)
+        return;
+    XMoveWindow(c->manager->dpy, c->win, c->manager->sw + 2, c->manager->sh + 2);
+    c->isbanned = True;
+    XSync(c->manager->dpy, False);
+}
+
+void unban_client(Client*c) {
+    if (!(c->isbanned))
+        return;
+    XMoveWindow(c->manager->dpy, c->win, c->x, c->y);
+    c->isbanned = False;
+    XSync(c->manager->dpy, False);
+}
+
 Client* query_clients(WM* winman) {
     unsigned int i, num;
     Window *wins, d1, d2;
@@ -262,8 +278,8 @@ void Destroy_WM(WM* winman) {
     XSetInputFocus(winman->dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
     XSync(winman->dpy, False);
     XCloseDisplay(winman->dpy);
-    //free(winman->clients); //Doesn't seem to work -> SEGFAULTS    
-    //free(winman);
+    free(winman->clients); //Doesn't seem to work -> SEGFAULTS    
+    free(winman);
 }
 
 int main() {
@@ -294,6 +310,15 @@ int main() {
         raise_client(&winman->clients[i]);
         printf("         Client %d should be raised now...\n", i);fflush(stdout);        
         usleep(1000000);
+    }
+
+    printf("Ban - unban each client ...\n");
+    for(i=0; i < winman->clients_num; i++) {
+        ban_client(&winman->clients[i]);
+        printf("         Client %d is banned? %d \n", i, winman->clients[i].isbanned);fflush(stdout);
+        usleep(1000000);
+        unban_client(&winman->clients[i]);
+        printf("            ... and unbanned? %d \n", winman->clients[i].isbanned);fflush(stdout);
     }
 
     printf("Finish for now...\n");

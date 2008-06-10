@@ -123,7 +123,7 @@ static VALUE wm_selected(VALUE self) {
 }
 
 static void client_free(void *p) {
-    free(p);
+    //free(p);
 }
 
 static VALUE client_alloc(VALUE klass) {
@@ -238,6 +238,20 @@ static VALUE client_raise(VALUE self) {
     return client_make(cClient, c);
 }
 
+static VALUE client_ban(VALUE self) {
+    Client* c;
+    Data_Get_Struct(self, Client, c);
+    ban_client(c);
+    return Qnil;
+}
+
+static VALUE client_unban(VALUE self) {
+    Client* c;
+    Data_Get_Struct(self, Client, c);
+    unban_client(c);
+    return client_make(cClient, c);
+}
+
 static VALUE client_size_set(VALUE self, VALUE valarray) {
     Client *c;
     Data_Get_Struct(self, Client, c);
@@ -293,6 +307,8 @@ void Init_x11() {
     rb_define_method(cClient, "w=", client_w_set, 1);
     rb_define_method(cClient, "h=", client_h_set, 1);
     rb_define_method(cClient, "raise", client_raise, 0);
+    rb_define_method(cClient, "ban", client_ban, 0);
+    rb_define_method(cClient, "unban", client_unban, 0);
 }
 
 
