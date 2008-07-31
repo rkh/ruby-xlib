@@ -184,19 +184,22 @@ void process_event(WM* winman) {
     XEvent ev;
 
     if (XPending(winman->dpy)) {
+        printf("Somethings amiss...\n");
         XNextEvent(winman->dpy, &ev);
+        printf("Maybe the event type ist %d \n", ev.type);
         switch (ev.type) {
             case (MapRequest):
+                printf ("Uhh, a MapRequest!!\n");
                 maprequest(winman, &ev);
                 break;
             case (UnmapNotify || DestroyNotify):
                 unmaprequest;
+                printf ("Oh-No! Destruction!!");
                 break;
             default:
                 break;
         }
     }
-    printf("Poll again");
 }
 
 void
