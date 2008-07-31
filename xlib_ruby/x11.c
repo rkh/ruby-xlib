@@ -64,25 +64,33 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XEvent ev;
     XClassHint ch = { 0 };
 
+    // Set window and WM of our Client
     c->win = w;
     c->manager = winman;
+
+    // Set name of our Client to Class and Name delimited by "|"
     XGetClassHint(winman->dpy, c->win, &ch);
     snprintf(c->name, sizeof(char)*256, "%s|%s",
         ch.res_class ? ch.res_class : "",
         ch.res_name ? ch.res_name : "");
     if(ch.res_class) XFree(ch.res_class);
     if(ch.res_name) XFree(ch.res_name);
+
+    // Set dimensions
     c->x = wa->x;
     c->y = wa->y;
     c->w = wa->width;
     c->h = wa->height;
     c->oldborder = wa->border_width;
+
     if(c->w == winman->sw && c->h == winman->sh) {
+        // if we're fullscreen, make it fully visible
         c->x = winman->sx;
         c->y = winman->sy;
         c->border = wa->border_width;
     }
     else {
+        // Make sure we don't drop out of proportion
         if(c->x + c->w + 2 * c->border > winman->wax + winman->waw)
             c->x = winman->wax + winman->waw - c->w - 2 * c->border;
         if(c->y + c->h + 2 * c->border > winman->way + winman->wah)
@@ -94,6 +102,8 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
         c->border = 0;
     }
     wc.border_width = c->border;
+
+    // Configure the window with the clients values
     XConfigureWindow(winman->dpy, w, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
     XSelectInput(winman->dpy, w, EnterWindowMask | FocusChangeMask 
             | PropertyChangeMask | StructureNotifyMask);
@@ -102,14 +112,19 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XChangeProperty(winman->dpy, c->win, winman->wmatom[WMState], 
             winman->wmatom[WMState], 32, PropModeReplace, 
             (unsigned char*)data, 2);
+
+    // Select and Raise the window
     winman->selected = c;
     XRaiseWindow(winman->dpy, winman->selected->win);
+
+    // Sync
     XSync(winman->dpy, False);
 }
 
 void border_client(Client* c, int w) {
     XWindowChanges wc;
 
+    // Save the current borderwidth and set the new one
     c->oldborder = c->border;
     c->border = w;
     wc.border_width = w;
@@ -121,6 +136,7 @@ void border_client(Client* c, int w) {
 void unborder_client(Client* c) {
     XWindowChanges wc;
 
+    // reset previous border width
     c->border = c->oldborder;
     wc.border_width = c->border;
     XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
@@ -128,45 +144,59 @@ void unborder_client(Client* c) {
     XSync(c->manager->dpy, False);
 }
 
-void raise_client(Client* c) {
-    //XWindowChanges wc;
-    //XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
-    //XSelectInput(c->manager->dpy, c->win, EnterWindowMask | FocusChangeMask
-    //        | PropertyChangeMask | StructureNotifyMask);
+void raise_client(Client* c) {    
     XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
     XMapWindow(c->manager->dpy, c->win);
+
+    // Select the client and raise its window
     c->manager->selected = c;
     XRaiseWindow(c->manager->dpy, c->win);
     XSync(c->manager->dpy, False);
 }
 
-void process_event(WM* winman) {
-    XEvent ev;
+void maprequest(WM* winman, XEvent *ev) {
     XWindowAttributes wa;
+
+    winman->clients_num += 1;
+    // remember: if realloc fails, it keeps the origin-block intact, 
+    // so we can just do it directly :)
+    winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
+    manage(winman, ev->xany.window, &wa, &winman->clients[winman->clients_num-1]);
+}
+
+void unmaprequest(WM* winman, XEvent *ev) {
     int i,j;
 
-    if (XPending(winman->dpy))
+    // Find the unmapped window
+    for(i=0; i<winman->clients_num; i++)
+        if (winman->clients[i].win == ev->xany.window) {
+            winman->clients_num -= 1;
+
+            // Move follow up windows oone ahead, overwriting the unmapped client
+            for(j=i+1; j<winman->clients_num; j++)
+                winman->clients[j-1] = winman->clients[j];
+            // Save memory
+            winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
+        }
+}
+
+void process_event(WM* winman) {
+    XEvent ev;
+
+    if (XPending(winman->dpy)) {
         XNextEvent(winman->dpy, &ev);
         switch (ev.type) {
             case (MapRequest):
-                winman->clients_num += 1;
-                // remember: if realloc fails, it keeps the origin-block intact, 
-                // so we can just do it directly :)
-                winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
-                manage(winman, ev.xany.window, &wa, &winman->clients[winman->clients_num-1]);
+                maprequest(winman, &ev);
                 break;
             case (UnmapNotify || DestroyNotify):
-                for(i=0; i<winman->clients_num; i++)
-                    if (winman->clients[i].win == ev.xany.window) {
-                        winman->clients_num -= 1;
-                        for(j=i+1; j<winman->clients_num; j++)
-                            winman->clients[j-1] = winman->clients[j];
-                        winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
-                    }
+                unmaprequest;
                 break;
             default:
                 break;
         }
+    }
+    printf("Poll again");
 }
 
 void
@@ -270,27 +300,43 @@ Client* query_clients(WM* winman) {
     return c;
 }
 
-WM* Init_WM() {
+WM* Init_WM(const char* locale) {
     WM* windowmanager;
+
+    // Allocate Structure
     windowmanager = calloc(1,sizeof(WM));
-    setlocale(LC_CTYPE, "de_DE.UTF-8");
+
+    // Set language
+    setlocale(LC_CTYPE, locale);
+
+    // Get Display and Rootscreen
     if(!(windowmanager->dpy = XOpenDisplay(0)))
         printf("Cannot open Display!!\n");fflush(stdout);        
     windowmanager->screen = DefaultScreen(windowmanager->dpy);
     windowmanager->root = RootWindow(windowmanager->dpy, windowmanager->screen);
     
+    // Try for other WM
     Bool otherwm = False;
     XSetErrorHandler(xerrorstart);
-    /* this causes an error if some other window manager is running */
+    // This causes an error if some other window manager is running
     XSelectInput(windowmanager->dpy, windowmanager->root, SubstructureRedirectMask);
     XSync(windowmanager->dpy, False);
     if(otherwm)
         printf("Another WM is running!!\n");fflush(stdout);
+
+    // Reset Errorhandling and Sync display
     XSync(windowmanager->dpy, False);
     XSetErrorHandler(NULL);
     windowmanager->xerrorxlib = XSetErrorHandler(xerror);
     XSync(windowmanager->dpy, False);
+
+    // Setup
     setup(windowmanager);
+
+    // Start polling
+    // pthread_create(&windowmanager->polling, NULL, 
+    //        (void*(*)(void*))process_event, windowmanager);
+
     return windowmanager;
 }
 
@@ -299,7 +345,7 @@ void Destroy_WM(WM* winman) {
     XSetInputFocus(winman->dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
     XSync(winman->dpy, False);
     XCloseDisplay(winman->dpy);
-    free(winman->clients); //Doesn't seem to work -> SEGFAULTS    
+    free(winman->clients);
     free(winman);
 }
 
@@ -308,12 +354,11 @@ int main() {
     int i;
 
     printf("Start to init NOW!\n");fflush(stdout);
-    winman = Init_WM();
+    winman = Init_WM("de_DE.UTF-8");
     printf("We have a screen: %d  %d %d %d\n", winman->sx, winman->sy, winman->sw, winman->sh);
     printf("         ... and a window area: %d %d %d %d\n", winman->wax, winman->way, winman->waw, winman->wah);
     printf("Start query NOW!\n");fflush(stdout);
     winman->clients = query_clients(winman);
-    //query_clients(&winman); 
     printf("Success! We should have clients now!\n");
     printf("         And they should all have the WM ptr... (trying just the first): %d %d %d %d\n", 
             winman->clients[0].manager->sx, winman->clients[0].manager->sy, 
@@ -325,8 +370,8 @@ int main() {
     }
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
     resize(winman, &winman->clients[0], winman->wax, winman->way, winman->waw, winman->wah, 0);
-    printf("Good. Set a border around our main client now...");
-    border_client(&winman->clients[0], 9);
+    printf("Good. Set a border around our main client now...\n");
+    border_client(&winman->clients[0], 10);
 
     printf("Try to raise in cycles as well...\n");
     for(i=0; i < winman->clients_num; i++) {

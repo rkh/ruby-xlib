@@ -9,7 +9,7 @@ static VALUE client_make(VALUE klass, Client* c); // I need this alot
 static VALUE wm_alloc(VALUE klass) {
     WM* newwm;
     VALUE obj;
-    newwm = Init_WM();
+    newwm = Init_WM("de_DE.UTF-8");
     obj = Data_Wrap_Struct(klass, 0, Destroy_WM, newwm);
     return obj;
 }
@@ -120,6 +120,13 @@ static VALUE wm_selected(VALUE self) {
     WM *newwm;
     Data_Get_Struct(self, WM, newwm);
     return client_make(cClient, newwm->selected);
+}
+
+static VALUE wm_process_event(VALUE self) {
+    WM *newwm;
+    Data_Get_Struct(self, WM, newwm);
+    process_event(newwm);
+    return Qnil;
 }
 
 static void client_free(void *p) {
@@ -314,6 +321,7 @@ void Init_x11() {
     rb_define_method(cWM, "windowareah=", wm_wah_set, 1);
     rb_define_method(cWM, "num_clients", wm_num_clients, 0);
     rb_define_method(cWM, "clients", wm_clients, 0);
+    rb_define_method(cWM, "process_event", wm_process_event, 0);
 
     rb_define_method(cClient, "size=", client_size_set, 1);
     rb_define_method(cClient, "size", client_size, 0);

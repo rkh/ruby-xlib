@@ -10,12 +10,14 @@
 #include <X11/Xproto.h>
 #include <X11/Xutil.h>
 #include <locale.h>
+#include <pthread.h>
 
 enum { WMProtocols, WMDelete, WMName, WMState, WMLast };/* default atoms */
 enum { NetSupported, NetWMName, NetLast };      /* EWMH atoms */
 
 typedef struct Client_t Client;
 typedef struct WM_t WM;
+typedef void** VTable;
 
 struct Client_t {
     char name[256];
@@ -45,6 +47,7 @@ struct WM_t {
     Window root;
     Bool running; 
     Bool otherwm;
+    pthread_t polling;
     int (*xerrorxlib)(Display *, XErrorEvent *);
     Atom wmatom[WMLast];
     Atom netatom[NetLast];
@@ -54,6 +57,7 @@ struct WM_t {
 
 void resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints);
 Client* query_clients(WM* winman);
+void process_event(WM* winman);
 void raise_client(Client* c);
 void ban_client(Client* c);
 void unban_client(Client* c);
