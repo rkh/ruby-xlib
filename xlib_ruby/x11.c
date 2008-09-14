@@ -1,5 +1,21 @@
 #include "x11.h"
 
+char* Xevents[] = {
+	[ButtonPress] = "buttonpress",
+	[ConfigureRequest] = "configurerequest",
+	[ConfigureNotify] = "configurenotify",
+	[DestroyNotify] = "destroynotify",
+	[EnterNotify] = "enternotify",
+	[Expose] = "expose",
+	[FocusIn] = "focusin",
+	[KeyPress] = "keypress",
+	[LeaveNotify] = "leavenotify",
+	[MappingNotify] = "mappingnotify",
+	[MapRequest] = "maprequest",
+	[PropertyNotify] = "propertynotify",
+	[UnmapNotify] = "unmapnotify"
+};
+
 int xerror(Display *dpy, XErrorEvent *ee) {
     if(ee->error_code == BadWindow
     ||(ee->request_code == X_SetInputFocus && ee->error_code == BadMatch)
@@ -18,6 +34,10 @@ int xerrorstart(Display *dsply, XErrorEvent *ee, WM *winman) {
     return -1;
 }
 
+/*
+ * This handles just some initial setup directly related to the 
+ * Window manager object which is passed as a pointer
+ */
 void setup(WM* winman) {
     int d;
     unsigned int i, j, mask;
@@ -47,15 +67,23 @@ void setup(WM* winman) {
 
     // TODO: init modifier map
     // TODO: init cursors
-
+    // This last part disallows X to map windows itself and transfers 
+    // responsability to the WindowManager. We don't need that...    
+/*
     wa.event_mask = SubstructureRedirectMask | SubstructureNotifyMask
         | EnterWindowMask | LeaveWindowMask | StructureNotifyMask;
     XChangeWindowAttributes(winman->dpy, winman->root, CWEventMask | CWCursor, &wa);
     XSelectInput(winman->dpy, winman->root, wa.event_mask);
-    
+*/  
     // TODO: Grabkeys, Multihead-Support, Xinerama, Compiz, Multitouch :D
 }
 
+/*
+ * This will initialize a new client object at the adress c,
+ * its manager set to winman. The window itself and it's attributes 
+ * must be passed as well. This function will be called each time a
+ * window is added to the field of managed windows in the WM object
+ */
 Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XWindowChanges wc;
     Window trans;
@@ -64,33 +92,25 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XEvent ev;
     XClassHint ch = { 0 };
 
-    // Set window and WM of our Client
     c->win = w;
     c->manager = winman;
-
-    // Set name of our Client to Class and Name delimited by "|"
     XGetClassHint(winman->dpy, c->win, &ch);
     snprintf(c->name, sizeof(char)*256, "%s|%s",
         ch.res_class ? ch.res_class : "",
         ch.res_name ? ch.res_name : "");
     if(ch.res_class) XFree(ch.res_class);
     if(ch.res_name) XFree(ch.res_name);
-
-    // Set dimensions
     c->x = wa->x;
     c->y = wa->y;
     c->w = wa->width;
     c->h = wa->height;
     c->oldborder = wa->border_width;
-
     if(c->w == winman->sw && c->h == winman->sh) {
-        // if we're fullscreen, make it fully visible
         c->x = winman->sx;
         c->y = winman->sy;
         c->border = wa->border_width;
     }
     else {
-        // Make sure we don't drop out of proportion
         if(c->x + c->w + 2 * c->border > winman->wax + winman->waw)
             c->x = winman->wax + winman->waw - c->w - 2 * c->border;
         if(c->y + c->h + 2 * c->border > winman->way + winman->wah)
@@ -102,8 +122,6 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
         c->border = 0;
     }
     wc.border_width = c->border;
-
-    // Configure the window with the clients values
     XConfigureWindow(winman->dpy, w, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
     XSelectInput(winman->dpy, w, EnterWindowMask | FocusChangeMask 
             | PropertyChangeMask | StructureNotifyMask);
@@ -112,20 +130,17 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XChangeProperty(winman->dpy, c->win, winman->wmatom[WMState], 
             winman->wmatom[WMState], 32, PropModeReplace, 
             (unsigned char*)data, 2);
-
-    // Select and Raise the window
     winman->selected = c;
     XRaiseWindow(winman->dpy, winman->selected->win);
-
-    // Sync
     XSync(winman->dpy, False);
 }
 
+/*
+ * This function creates a simple border around a client
+ */
 void border_client(Client* c, int w) {
     XWindowChanges wc;
 
-    // Save the current borderwidth and set the new one
-    c->oldborder = c->border;
     c->border = w;
     wc.border_width = w;
     XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
@@ -133,10 +148,12 @@ void border_client(Client* c, int w) {
     XSync(c->manager->dpy, False);
 }
 
+/* 
+ * This function resets the client's border to the preset size
+ */
 void unborder_client(Client* c) {
     XWindowChanges wc;
 
-    // reset previous border width
     c->border = c->oldborder;
     wc.border_width = c->border;
     XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
@@ -144,64 +161,154 @@ void unborder_client(Client* c) {
     XSync(c->manager->dpy, False);
 }
 
-void raise_client(Client* c) {    
+/*
+ * This function raises a client
+ */
+void raise_client(Client* c) {
+    //XWindowChanges wc;
+    //XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    //XSelectInput(c->manager->dpy, c->win, EnterWindowMask | FocusChangeMask
+    //        | PropertyChangeMask | StructureNotifyMask);
     XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
     XMapWindow(c->manager->dpy, c->win);
-
-    // Select the client and raise its window
     c->manager->selected = c;
     XRaiseWindow(c->manager->dpy, c->win);
     XSync(c->manager->dpy, False);
 }
 
-void maprequest(WM* winman, XEvent *ev) {
-    XWindowAttributes wa;
-
-    winman->clients_num += 1;
-    // remember: if realloc fails, it keeps the origin-block intact, 
-    // so we can just do it directly :)
-    winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
-    manage(winman, ev->xany.window, &wa, &winman->clients[winman->clients_num-1]);
-}
-
-void unmaprequest(WM* winman, XEvent *ev) {
-    int i,j;
-
-    // Find the unmapped window
-    for(i=0; i<winman->clients_num; i++)
-        if (winman->clients[i].win == ev->xany.window) {
-            winman->clients_num -= 1;
-
-            // Move follow up windows oone ahead, overwriting the unmapped client
-            for(j=i+1; j<winman->clients_num; j++)
-                winman->clients[j-1] = winman->clients[j];
-            // Save memory
-            winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
-        }
-}
-
+/*
+ * This fucntion will try to process 
+ * the next pending event, if existant.
+ * This is just for the main testing
+ */
 void process_event(WM* winman) {
     XEvent ev;
+    XWindowAttributes wa;
+    int i,j;
 
-    if (XPending(winman->dpy)) {
-        printf("Somethings amiss...\n");
+    if (XPending(winman->dpy))
         XNextEvent(winman->dpy, &ev);
-        printf("Maybe the event type ist %d \n", ev.type);
         switch (ev.type) {
             case (MapRequest):
-                printf ("Uhh, a MapRequest!!\n");
-                maprequest(winman, &ev);
+                winman->clients_num += 1;
+                // remember: if realloc fails, it keeps the origin-block intact, 
+                // so we can just do it directly :)
+                winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
+                manage(winman, ev.xany.window, &wa, &winman->clients[winman->clients_num-1]);
                 break;
             case (UnmapNotify || DestroyNotify):
-                unmaprequest;
-                printf ("Oh-No! Destruction!!");
+                for(i=0; i<winman->clients_num; i++)
+                    if (winman->clients[i].win == ev.xany.window) {
+                        winman->clients_num -= 1;
+                        for(j=i+1; j<winman->clients_num; j++)
+                            winman->clients[j-1] = winman->clients[j];
+                        winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
+                    }
                 break;
             default:
                 break;
         }
-    }
 }
 
+/*
+ * This returns whether there is an event waiting for us
+ */
+char event_pending(WM* winman) {
+    if (XPending(winman->dpy)) return 1;
+    return 0;
+}
+
+/*
+ * This shows which source caused the event.
+ * Has to be called prior to handling the actual event!!
+ */
+int event_next_source(WM* winman) {
+    XEvent ev;
+    int i;
+
+    if (XPending(winman->dpy)) {
+        XPeekEvent(winman->dpy, &ev);
+        for(i=0; i<winman->clients_num; i++) {
+            if (winman->clients[i].win == ev.xany.window)
+                return i;
+        }
+        return -2;
+    }
+    return -1;
+}
+
+/*
+ * This returns the events name 
+ */
+char* event_next_type(WM* winman) {
+    XEvent ev;
+    
+    if (XPending(winman->dpy)) {
+        XPeekEvent(winman->dpy, &ev);
+        return Xevents[ev.type];
+    }
+    return NULL;
+}
+
+/*
+ * This might do better for client stuff
+ */
+void update_query(WM* winman) {
+    unsigned int i,j,num;
+    char found = 0;
+    Window *wins, d1, d2;
+    XWindowAttributes wa;
+    Client* c;
+
+    wins = NULL;
+    XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num);
+
+    // Are we missing windowS?
+    if (winman->clients_num < num) {        
+        winman->clients = (Client*)realloc(winman->clients, sizeof(Client)*num);     // Resize array
+        for (i=0;i<num;i++) {
+            found = 0;
+            for(j=0;j<winman->clients_num;j++) {
+                if (winman->clients[j].win == wins[i]) {
+                    // If we find the win, stop here, we don't need to handle it
+                    found = 1;
+                    break;
+                }
+            }
+            if (found == 0) {
+                XGetWindowAttributes(winman->dpy, wins[i], &wa);
+                // If we haven't found the win, manage it and post-inc the client number
+                manage(winman, wins[i], &wa, &winman->clients[winman->clients_num++]);
+            }
+            if (winman->clients_num == num) break;  // If the new client number is equal to num, stop here
+        }
+    }/* else if (winman->clients_num > num) {
+        for(i=0; i<winman->clients_num; i++)
+            if (winman->clients[i].win == ev.xany.window) {
+                winman->clients_num -= 1;
+                for(j=i+1; j<winman->clients_num; j++)
+                    winman->clients[j-1] = winman->clients[j];
+                winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
+            }
+    }*/
+    if(wins)
+        XFree(wins);
+}
+
+
+/*
+ * This removes an event from the queue
+ */
+void event_pop(WM* winman) {
+    XEvent ev;
+    
+    if (XPending(winman->dpy))
+        XNextEvent(winman->dpy, &ev);
+}
+
+/*
+ * This function resizes a client
+ */
 void
 resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints) {
 	XWindowChanges wc;
@@ -266,6 +373,9 @@ resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints) {
 	}
 }
 
+/*
+ * This function "minimizes"
+ */
 void ban_client(Client* c) {
     if (c->isbanned)
         return;
@@ -274,6 +384,9 @@ void ban_client(Client* c) {
     XSync(c->manager->dpy, False);
 }
 
+/*
+ * This function "un-minimizes"
+ */
 void unban_client(Client*c) {
     if (!(c->isbanned))
         return;
@@ -282,6 +395,11 @@ void unban_client(Client*c) {
     XSync(c->manager->dpy, False);
 }
 
+/*
+ * This is a setup-function to fill the field
+ * of managed clients in the WM object.
+ * This should only be called during setup!
+ */
 Client* query_clients(WM* winman) {
     unsigned int i, num;
     Window *wins, d1, d2;
@@ -303,61 +421,48 @@ Client* query_clients(WM* winman) {
     return c;
 }
 
-WM* Init_WM(const char* locale) {
+/* 
+ * This will initialize a WM object and return its adress
+ */
+WM* Init_WM() {
     WM* windowmanager;
-
-    // Allocate Structure
     windowmanager = calloc(1,sizeof(WM));
-
-    // Set language
-    setlocale(LC_CTYPE, locale);
-
-    // Get Display and Rootscreen
+    setlocale(LC_CTYPE, "de_DE.UTF-8");
     if(!(windowmanager->dpy = XOpenDisplay(0)))
         printf("Cannot open Display!!\n");fflush(stdout);        
     windowmanager->screen = DefaultScreen(windowmanager->dpy);
+    if(!(windowmanager->dpy = XOpenDisplay(0x0))) return NULL;
     windowmanager->root = RootWindow(windowmanager->dpy, windowmanager->screen);
     
-    // Try for other WM
-    Bool otherwm = False;
-    XSetErrorHandler(xerrorstart);
-    // This causes an error if some other window manager is running
-    XSelectInput(windowmanager->dpy, windowmanager->root, SubstructureRedirectMask);
-    XSync(windowmanager->dpy, False);
-    if(otherwm)
-        printf("Another WM is running!!\n");fflush(stdout);
-
-    // Reset Errorhandling and Sync display
-    XSync(windowmanager->dpy, False);
     XSetErrorHandler(NULL);
     windowmanager->xerrorxlib = XSetErrorHandler(xerror);
     XSync(windowmanager->dpy, False);
-
-    // Setup
     setup(windowmanager);
-
-    // Start polling
-    // pthread_create(&windowmanager->polling, NULL, 
-    //        (void*(*)(void*))process_event, windowmanager);
-
     return windowmanager;
 }
 
+/*
+ * This will free all Client objects and the WM itself.
+ * This will grow with each added feature.
+ */
 void Destroy_WM(WM* winman) {
     XUngrabKey(winman->dpy, AnyKey, AnyModifier, winman->root);
     XSetInputFocus(winman->dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
     XSync(winman->dpy, False);
     XCloseDisplay(winman->dpy);
-    free(winman->clients);
+    free(winman->clients); 
     free(winman);
 }
 
+/*
+ * Here we have a test routine to test the C code by itself
+ */
 int main() {
     WM* winman;   
     int i;
 
     printf("Start to init NOW!\n");fflush(stdout);
-    winman = Init_WM("de_DE.UTF-8");
+    winman = Init_WM();
     printf("We have a screen: %d  %d %d %d\n", winman->sx, winman->sy, winman->sw, winman->sh);
     printf("         ... and a window area: %d %d %d %d\n", winman->wax, winman->way, winman->waw, winman->wah);
     printf("Start query NOW!\n");fflush(stdout);
@@ -373,8 +478,8 @@ int main() {
     }
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
     resize(winman, &winman->clients[0], winman->wax, winman->way, winman->waw, winman->wah, 0);
-    printf("Good. Set a border around our main client now...\n");
-    border_client(&winman->clients[0], 10);
+    printf("Good. Set a border around our main client now...");
+    border_client(&winman->clients[0], 9);
 
     printf("Try to raise in cycles as well...\n");
     for(i=0; i < winman->clients_num; i++) {
@@ -391,6 +496,15 @@ int main() {
         unban_client(&winman->clients[i]);
         printf("            ... and unbanned? %d \n", winman->clients[i].isbanned);fflush(stdout);
     }
+
+    printf("Start handling of pending events for a few seconds...\n");
+    for(i=100; i>0; --i) {
+        process_event(winman);
+        usleep(10000);
+    }
+
+    printf("Try query update...\n");
+    update_query(winman);
 
     printf("Finish for now...\n");
     return 0;

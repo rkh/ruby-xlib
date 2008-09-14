@@ -3,5 +3,6 @@ xrandr -s 1
 xterm &
 uxterm &
 sleep 10
-./wm > wm.log
+xeyes &
 sleep 2
+./wm

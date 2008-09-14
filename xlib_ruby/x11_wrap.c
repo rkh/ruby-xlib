@@ -6,20 +6,14 @@ static VALUE client_make(VALUE klass, Client* c); // I need this alot
 
 // Allocate a new WindowManager object
 // using the supplied Init_WM
+// Also do a first query
 static VALUE wm_alloc(VALUE klass) {
     WM* newwm;
     VALUE obj;
-    newwm = Init_WM("de_DE.UTF-8");
+    newwm = Init_WM();
+    newwm->clients = query_clients(newwm);
     obj = Data_Wrap_Struct(klass, 0, Destroy_WM, newwm);
     return obj;
-}
-
-// Query for clients in our WindowManager
-static VALUE wm_initialize (VALUE self) {
-    WM *newwm;
-    Data_Get_Struct(self, WM, newwm);
-    newwm->clients = query_clients(newwm);
-    return self;
 }
 
 // Free our WindowManager
@@ -122,13 +116,6 @@ static VALUE wm_selected(VALUE self) {
     return client_make(cClient, newwm->selected);
 }
 
-static VALUE wm_process_event(VALUE self) {
-    WM *newwm;
-    Data_Get_Struct(self, WM, newwm);
-    process_event(newwm);
-    return Qnil;
-}
-
 static void client_free(void *p) {
     //free(p);
 }
@@ -161,7 +148,51 @@ static VALUE wm_clients(VALUE self) {
         rb_ary_push(arr, obj);
     }
     return arr;
-//    return rb_ary_new4(newwm->clients_num, newwm->clients);
+}
+
+static VALUE wm_event_pending(VALUE self) {
+    WM *newwm;
+    Data_Get_Struct(self, WM, newwm);
+    if (event_pending(newwm))
+        return Qtrue;
+    else
+        return Qfalse;
+}
+
+static VALUE wm_event_next_source(VALUE self) {
+    WM *newwm;
+    int c;
+
+    Data_Get_Struct(self, WM, newwm);
+    c = event_next_source(newwm);
+    if (c == -1) {
+        rb_raise(rb_eArgError, "no pending events - check first!");
+        return Qnil;
+    }
+    if (c != -2)
+        return client_make(cClient, &newwm->clients[c]);
+    else
+        return Qnil;
+}
+
+static VALUE wm_event_next_type(VALUE self) {
+    WM *newwm;
+
+    Data_Get_Struct(self, WM, newwm);
+    if (event_next_type(newwm) != NULL)
+        return rb_str_new2(event_next_type(newwm));
+    else {
+        rb_raise(rb_eArgError, "no pending events - check first!");
+        return Qnil;
+    }
+}
+
+static VALUE wm_event_pop(VALUE self) {
+    WM *newwm;
+
+    Data_Get_Struct(self, WM, newwm);
+    event_pop(newwm);
+    return Qnil;
 }
 
 static VALUE client_name(VALUE self) {
@@ -307,33 +338,36 @@ void Init_x11() {
 
     rb_define_method(cWM, "query", wm_query, 0);
     rb_define_method(cWM, "selected", wm_selected, 0);
-    rb_define_method(cWM, "screenx", wm_sx, 0);
-    rb_define_method(cWM, "screeny", wm_sy, 0);
-    rb_define_method(cWM, "screenw", wm_sw, 0);
-    rb_define_method(cWM, "screenh", wm_sh, 0);
-    rb_define_method(cWM, "windowareax", wm_wax, 0);
-    rb_define_method(cWM, "windowareay", wm_way, 0);
-    rb_define_method(cWM, "windowareaw", wm_waw, 0);
-    rb_define_method(cWM, "windowareah", wm_wah, 0);
-    rb_define_method(cWM, "windowareax=", wm_wax_set, 1);
-    rb_define_method(cWM, "windowareay=", wm_way_set, 1);
-    rb_define_method(cWM, "windowareaw=", wm_waw_set, 1);
-    rb_define_method(cWM, "windowareah=", wm_wah_set, 1);
-    rb_define_method(cWM, "num_clients", wm_num_clients, 0);
+    rb_define_method(cWM, "screenxpos", wm_sx, 0);
+    rb_define_method(cWM, "screenypos", wm_sy, 0);
+    rb_define_method(cWM, "screenwidth", wm_sw, 0);
+    rb_define_method(cWM, "screenheight", wm_sh, 0);
+    rb_define_method(cWM, "windowareaxpos", wm_wax, 0);
+    rb_define_method(cWM, "windowareaypos", wm_way, 0);
+    rb_define_method(cWM, "windowareawidth", wm_waw, 0);
+    rb_define_method(cWM, "windowareaheight", wm_wah, 0);
+    rb_define_method(cWM, "windowareaxpos=", wm_wax_set, 1);
+    rb_define_method(cWM, "windowareaypos=", wm_way_set, 1);
+    rb_define_method(cWM, "windowareawidth=", wm_waw_set, 1);
+    rb_define_method(cWM, "windowareaheight=", wm_wah_set, 1);
+    rb_define_method(cWM, "number_of_clients", wm_num_clients, 0);
     rb_define_method(cWM, "clients", wm_clients, 0);
-    rb_define_method(cWM, "process_event", wm_process_event, 0);
+    rb_define_method(cWM, "event_pending?", wm_event_pending, 0);
+    rb_define_method(cWM, "next_event", wm_event_next_type, 0);
+    rb_define_method(cWM, "next_event_source", wm_event_next_source, 0);
+    rb_define_method(cWM, "event_pop", wm_event_pop, 0);
 
     rb_define_method(cClient, "size=", client_size_set, 1);
     rb_define_method(cClient, "size", client_size, 0);
     rb_define_method(cClient, "name", client_name, 0);
-    rb_define_method(cClient, "x", client_x, 0);
-    rb_define_method(cClient, "y", client_y, 0);
-    rb_define_method(cClient, "w", client_w, 0);
-    rb_define_method(cClient, "h", client_h, 0);
-    rb_define_method(cClient, "x=", client_x_set, 1);
-    rb_define_method(cClient, "y=", client_y_set, 1);
-    rb_define_method(cClient, "w=", client_w_set, 1);
-    rb_define_method(cClient, "h=", client_h_set, 1);
+    rb_define_method(cClient, "xpos", client_x, 0);
+    rb_define_method(cClient, "ypos", client_y, 0);
+    rb_define_method(cClient, "width", client_w, 0);
+    rb_define_method(cClient, "height", client_h, 0);
+    rb_define_method(cClient, "xpos=", client_x_set, 1);
+    rb_define_method(cClient, "ypos=", client_y_set, 1);
+    rb_define_method(cClient, "width=", client_w_set, 1);
+    rb_define_method(cClient, "height=", client_h_set, 1);
     rb_define_method(cClient, "raise", client_raise, 0);
     rb_define_method(cClient, "ban", client_ban, 0);
     rb_define_method(cClient, "unban", client_unban, 0);
