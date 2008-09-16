@@ -19,6 +19,7 @@ typedef struct WM_t WM;
 
 struct Client_t {
     char name[256];
+    char class[256];
     int x,y,w,h;
     int rx,ry,rw,rh; //revert geo
     int basew,baseh,incw,inch,maxw,maxh,minw,minh;

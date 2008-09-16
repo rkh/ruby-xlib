@@ -112,7 +112,14 @@ static VALUE wm_num_clients(VALUE self) {
 
 static VALUE wm_selected(VALUE self) {
     WM *newwm;
+    Window focus_return;
+    int i;
+
     Data_Get_Struct(self, WM, newwm);
+    XGetInputFocus(newwm->dpy, &focus_return, &i);
+    for (i=0; i<newwm->clients_num; i++)
+       if (&newwm->clients[i].win == &focus_return)
+           newwm->selected = &newwm->clients[i];
     return client_make(cClient, newwm->selected);
 }
 
@@ -199,6 +206,12 @@ static VALUE client_name(VALUE self) {
     Client *c;
     Data_Get_Struct(self, Client, c);
     return rb_str_new2(c->name);
+}
+
+static VALUE client_class(VALUE self) {
+    Client *c;
+    Data_Get_Struct(self, Client, c);
+    return rb_str_new2(c->class);
 }
 
 static VALUE client_border(VALUE self) {
@@ -360,6 +373,7 @@ void Init_x11() {
     rb_define_method(cClient, "size=", client_size_set, 1);
     rb_define_method(cClient, "size", client_size, 0);
     rb_define_method(cClient, "name", client_name, 0);
+    rb_define_method(cClient, "class", client_class, 0);
     rb_define_method(cClient, "xpos", client_x, 0);
     rb_define_method(cClient, "ypos", client_y, 0);
     rb_define_method(cClient, "width", client_w, 0);

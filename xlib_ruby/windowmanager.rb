@@ -18,8 +18,6 @@ class WindowManager
                 sleep 0.1
             end
         end
-        a = Thread.new { loop { sleep 0.1; self.query if event_pending?; self.event_pop }}
-        b = Thread.new { loop { sleep 0.4; puts self.next_event }}
     end
 
     @maprequest = Proc.new { |client| puts "MapRequest" }
