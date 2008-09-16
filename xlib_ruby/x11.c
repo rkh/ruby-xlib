@@ -1,6 +1,6 @@
 #include "x11.h"
 
-char* Xevents[] = {
+static char* Xevents[] = {
 	[ButtonPress] = "buttonpress",
 	[ConfigureRequest] = "configurerequest",
 	[ConfigureNotify] = "configurenotify",
@@ -16,45 +16,11 @@ char* Xevents[] = {
 	[UnmapNotify] = "unmapnotify"
 };
 
-int xerror(Display *dpy, XErrorEvent *ee) {
-    if(ee->error_code == BadWindow
-    ||(ee->request_code == X_SetInputFocus && ee->error_code == BadMatch)
-    ||(ee->request_code == X_PolyText8 && ee->error_code == BadDrawable)
-    || (ee->request_code == X_PolyFillRectangle && ee->error_code == BadDrawable)
-    || (ee->request_code == X_PolySegment && ee->error_code == BadDrawable)
-    || (ee->request_code == X_ConfigureWindow && ee->error_code == BadMatch)
-    || (ee->request_code == X_GrabKey && ee->error_code == BadAccess)
-    || (ee->request_code == X_CopyArea && ee->error_code == BadDrawable))
-        return 0;
-//    return xerrorxlib(dpy, ee); /* may call exit */
-}
-
-int xerrorstart(Display *dsply, XErrorEvent *ee, WM *winman) {
-    winman->otherwm = True;
-    return -1;
-}
-
 /*
  * This handles just some initial setup directly related to the 
  * Window manager object which is passed as a pointer
  */
 void setup(WM* winman) {
-    int d;
-    unsigned int i, j, mask;
-    Window w;
-    XModifierKeymap *modmap;
-    XSetWindowAttributes wa;
-
-    // init atoms
-    winman->wmatom[WMProtocols] = XInternAtom(winman->dpy, "WM_PROTOCOLS", False);
-    winman->wmatom[WMDelete] = XInternAtom(winman->dpy, "WM_DELETE_WINDOW", False);
-    winman->wmatom[WMName] = XInternAtom(winman->dpy, "WM_NAME", False);
-    winman->wmatom[WMState] = XInternAtom(winman->dpy, "WM_STATE", False);
-    winman->netatom[NetSupported] = XInternAtom(winman->dpy, "_NET_SUPPORTED", False);
-    winman->netatom[NetWMName] = XInternAtom(winman->dpy, "_NET_WM_NAME", False);
-    XChangeProperty(winman->dpy, winman->root, winman->netatom[NetSupported], XA_ATOM, 32,
-            PropModeReplace, (unsigned char *) winman->netatom, NetLast);
-
     // init geometry
     winman->sx = winman->sy = 0;
     winman->sw = DisplayWidth(winman->dpy, winman->screen);
@@ -65,16 +31,6 @@ void setup(WM* winman) {
     winman->waw = winman->sw;
     winman->wah = winman->sh;
 
-    // TODO: init modifier map
-    // TODO: init cursors
-    // This last part disallows X to map windows itself and transfers 
-    // responsability to the WindowManager. We don't need that...    
-/*
-    wa.event_mask = SubstructureRedirectMask | SubstructureNotifyMask
-        | EnterWindowMask | LeaveWindowMask | StructureNotifyMask;
-    XChangeWindowAttributes(winman->dpy, winman->root, CWEventMask | CWCursor, &wa);
-    XSelectInput(winman->dpy, winman->root, wa.event_mask);
-*/  
     // TODO: Grabkeys, Multihead-Support, Xinerama, Compiz, Multitouch :D
 }
 
@@ -84,30 +40,24 @@ void setup(WM* winman) {
  * must be passed as well. This function will be called each time a
  * window is added to the field of managed windows in the WM object
  */
-Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
+void manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     XWindowChanges wc;
-    Window trans;
-    Status rettrans;
-    long data[] = {NormalState, None};
-    XEvent ev;
     XClassHint* ch = XAllocClassHint();
-    XTextProperty text_prop_ret;
+    char* win_name;
 
     c->win = w;
     c->manager = winman;
-    XGetClassHint(winman->dpy, c->win, ch);
-    
-    /* Try what we can to get values for Windows */
-    sprintf(c->class,"%s",ch->res_class ? ch->res_class : "EMPTY");
-    sprintf(c->name,"%s",ch->res_name ? ch->res_name : "EMPTY");
-    if (XGetWMName(winman->dpy, c->win, &text_prop_ret)) {
-        sprintf(c->name, "%s", 
-                (strcmp(c->name, "")==0) ? text_prop_ret.value : c->name);
+
+    if (XGetClassHint(winman->dpy, c->win, ch)) {
+        sprintf(c->class,"%s", ch->res_class);
+        if(ch->res_class) XFree(ch->res_class);
+        if(ch->res_name) XFree(ch->res_name);
+    }
+    if (XFetchName(winman->dpy, w, &win_name)) {
+        sprintf(c->name,"%s",win_name);
+        XFree(win_name);
     }
 
-    if(ch->res_class) XFree(ch->res_class);
-    if(ch->res_name) XFree(ch->res_name);
-    XFree(ch);
     c->x = wa->x;
     c->y = wa->y;
     c->w = wa->width;
@@ -135,11 +85,8 @@ Client manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
             | PropertyChangeMask | StructureNotifyMask);
     XMoveResizeWindow(winman->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this    
     XMapWindow(winman->dpy, c->win);
-    XChangeProperty(winman->dpy, c->win, winman->wmatom[WMState], 
-            winman->wmatom[WMState], 32, PropModeReplace, 
-            (unsigned char*)data, 2);
+    XSetInputFocus(winman->dpy, c->win, RevertToNone, CurrentTime); // focus new windows    
     winman->selected = c;
-    XRaiseWindow(winman->dpy, winman->selected->win);
     XSync(winman->dpy, False);
 }
 
@@ -266,7 +213,6 @@ void update_query(WM* winman) {
     char found = 0;
     Window *wins, d1, d2;
     XWindowAttributes wa;
-    Client* c;
 
     wins = NULL;
     XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num);
@@ -412,7 +358,7 @@ Client* query_clients(WM* winman) {
     unsigned int i, num;
     Window *wins, d1, d2;
     XWindowAttributes wa;
-    Client* c;
+    Client* c = (Client*)malloc(sizeof(Client));
 
     wins = NULL;
     if (XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num)) {
@@ -437,14 +383,16 @@ WM* Init_WM() {
     windowmanager = calloc(1,sizeof(WM));
     setlocale(LC_CTYPE, "de_DE.UTF-8");
     if(!(windowmanager->dpy = XOpenDisplay(0)))
-        printf("Cannot open Display!!\n");fflush(stdout);        
+        printf("Cannot open Display!!\n");fflush(stdout);
     windowmanager->screen = DefaultScreen(windowmanager->dpy);
     if(!(windowmanager->dpy = XOpenDisplay(0x0))) return NULL;
     windowmanager->root = RootWindow(windowmanager->dpy, windowmanager->screen);
     
+    /*
     XSetErrorHandler(NULL);
     windowmanager->xerrorxlib = XSetErrorHandler(xerror);
     XSync(windowmanager->dpy, False);
+    */
     setup(windowmanager);
     return windowmanager;
 }
@@ -482,7 +430,7 @@ int main() {
     for(i=0; i < winman->clients_num; i++) {
         printf("                  Trying client number %d name: %s \n", i, winman->clients[i].name);
         printf("                           Geo: %d %d %d %d\n", 
-                i, winman->clients[0].x, winman->clients[0].y, winman->clients[i].w, winman->clients[0].h);
+                winman->clients[0].x, winman->clients[0].y, winman->clients[i].w, winman->clients[0].h);
     }
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
     resize(winman, &winman->clients[0], winman->wax, winman->way, winman->waw, winman->wah, 0);

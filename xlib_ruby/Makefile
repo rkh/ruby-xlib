@@ -34,7 +34,7 @@ localstatedir = $(DESTDIR)/var
 sitelibdir = $(sitedir)/$(ruby_version)
 libexecdir = $(prefix)/lib/ruby1.8
 
-CC = cc
+CC = cc -Wall
 LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
 LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
