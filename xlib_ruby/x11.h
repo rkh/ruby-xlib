@@ -62,7 +62,7 @@ void unban_client(Client* c);
 void unborder_client(Client* c);
 void border_client(Client* c, int w);
 WM* Init_WM();
-char event_pending(WM* winman);
+int event_pending(WM* winman);
 int event_next_source(WM* winman);
 char* event_next_type(WM* winman);
 void event_pop(WM* winman);

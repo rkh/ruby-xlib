@@ -16,11 +16,6 @@ static VALUE wm_alloc(VALUE klass) {
     return obj;
 }
 
-// Free our WindowManager
-static void wm_free(void *p) {
-    Destroy_WM(p);
-}
-
 static VALUE wm_query(VALUE self) {
     WM *newwm;
     Data_Get_Struct(self, WM, newwm);
@@ -116,29 +111,12 @@ static VALUE wm_selected(VALUE self) {
     int i;
 
     Data_Get_Struct(self, WM, newwm);
+
     XGetInputFocus(newwm->dpy, &focus_return, &i);
     for (i=0; i<newwm->clients_num; i++)
        if (&newwm->clients[i].win == &focus_return)
            newwm->selected = &newwm->clients[i];
     return client_make(cClient, newwm->selected);
-}
-
-static void client_free(void *p) {
-    //free(p);
-}
-
-static VALUE client_alloc(VALUE klass) {
-    Client *c;
-    VALUE obj;
-    c = (Client*)calloc(1, sizeof(Client));
-    obj = Data_Wrap_Struct(klass, 0, client_free, c);
-    return obj;
-}
-
-static VALUE client_make(VALUE klass, Client* c) {
-    VALUE obj;
-    obj = Data_Wrap_Struct(klass, 0, client_free, c);
-    return obj;
 }
 
 static VALUE wm_clients(VALUE self) {
@@ -160,10 +138,7 @@ static VALUE wm_clients(VALUE self) {
 static VALUE wm_event_pending(VALUE self) {
     WM *newwm;
     Data_Get_Struct(self, WM, newwm);
-    if (event_pending(newwm))
-        return Qtrue;
-    else
-        return Qfalse;
+    return INT2NUM(XPending(newwm->dpy));
 }
 
 static VALUE wm_event_next_source(VALUE self) {
@@ -172,11 +147,7 @@ static VALUE wm_event_next_source(VALUE self) {
 
     Data_Get_Struct(self, WM, newwm);
     c = event_next_source(newwm);
-    if (c == -1) {
-        rb_raise(rb_eArgError, "no pending events - check first!");
-        return Qnil;
-    }
-    if (c != -2)
+    if (c > 0)
         return client_make(cClient, &newwm->clients[c]);
     else
         return Qnil;
@@ -189,7 +160,6 @@ static VALUE wm_event_next_type(VALUE self) {
     if (event_next_type(newwm) != NULL)
         return rb_str_new2(event_next_type(newwm));
     else {
-        rb_raise(rb_eArgError, "no pending events - check first!");
         return Qnil;
     }
 }
@@ -200,6 +170,24 @@ static VALUE wm_event_pop(VALUE self) {
     Data_Get_Struct(self, WM, newwm);
     event_pop(newwm);
     return Qnil;
+}
+
+static void client_free(void *p) {
+    //free(p);
+}
+
+static VALUE client_alloc(VALUE klass) {
+    Client *c;
+    VALUE obj;
+    c = (Client*)calloc(1, sizeof(Client));
+    obj = Data_Wrap_Struct(klass, 0, client_free, c);
+    return obj;
+}
+
+static VALUE client_make(VALUE klass, Client* c) {
+    VALUE obj;
+    obj = Data_Wrap_Struct(klass, 0, client_free, c);
+    return obj;
 }
 
 static VALUE client_name(VALUE self) {
@@ -374,6 +362,7 @@ void Init_x11() {
     rb_define_method(cClient, "size", client_size, 0);
     rb_define_method(cClient, "name", client_name, 0);
     rb_define_method(cClient, "class", client_class, 0);
+
     rb_define_method(cClient, "xpos", client_x, 0);
     rb_define_method(cClient, "ypos", client_y, 0);
     rb_define_method(cClient, "width", client_w, 0);

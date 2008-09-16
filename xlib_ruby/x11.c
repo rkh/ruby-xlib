@@ -136,42 +136,38 @@ void raise_client(Client* c) {
  * the next pending event, if existant.
  * This is just for the main testing
  */
+/*
 void process_event(WM* winman) {
     XEvent ev;
     XWindowAttributes wa;
-    int i,j;
+    unsigned int i,j;
+    Window *wins, d1, d2;
 
     if (XPending(winman->dpy))
         XNextEvent(winman->dpy, &ev);
-        switch (ev.type) {
-            case (MapRequest):
-                winman->clients_num += 1;
-                // remember: if realloc fails, it keeps the origin-block intact, 
-                // so we can just do it directly :)
-                winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
-                manage(winman, ev.xany.window, &wa, &winman->clients[winman->clients_num-1]);
-                break;
-            case (UnmapNotify || DestroyNotify):
+        if ((ev.type == UnmapNotify) || (ev.type == DestroyNotify)) {
                 for(i=0; i<winman->clients_num; i++)
                     if (winman->clients[i].win == ev.xany.window) {
                         winman->clients_num -= 1;
                         for(j=i+1; j<winman->clients_num; j++)
                             winman->clients[j-1] = winman->clients[j];
-                        winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
+                        winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
                     }
-                break;
-            default:
-                break;
+        }
+        else {
+            wins = NULL;
+            XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &j)
+            if (j != winman->clients_num)
+                winman->clients_num = j;
+                winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num);
+                for (i = 0; i < j; i++) {
+                    XGetWindowAttributes(winman->dpy, wins[i], &wa);
+                    if(wa.map_state == IsViewable)
+                        manage(winman, wins[i], &wa, &winman->clients[i]);
+                }
         }
 }
-
-/*
- * This returns whether there is an event waiting for us
- */
-char event_pending(WM* winman) {
-    if (XPending(winman->dpy)) return 1;
-    return 0;
-}
+*/
 
 /*
  * This shows which source caused the event.
@@ -204,51 +200,6 @@ char* event_next_type(WM* winman) {
     }
     return NULL;
 }
-
-/*
- * This might do better for client stuff
- */
-void update_query(WM* winman) {
-    unsigned int i,j,num;
-    char found = 0;
-    Window *wins, d1, d2;
-    XWindowAttributes wa;
-
-    wins = NULL;
-    XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num);
-
-    // Are we missing windowS?
-    if (winman->clients_num < num) {        
-        winman->clients = (Client*)realloc(winman->clients, sizeof(Client)*num);     // Resize array
-        for (i=0;i<num;i++) {
-            found = 0;
-            for(j=0;j<winman->clients_num;j++) {
-                if (winman->clients[j].win == wins[i]) {
-                    // If we find the win, stop here, we don't need to handle it
-                    found = 1;
-                    break;
-                }
-            }
-            if (found == 0) {
-                XGetWindowAttributes(winman->dpy, wins[i], &wa);
-                // If we haven't found the win, manage it and post-inc the client number
-                manage(winman, wins[i], &wa, &winman->clients[winman->clients_num++]);
-            }
-            if (winman->clients_num == num) break;  // If the new client number is equal to num, stop here
-        }
-    }/* else if (winman->clients_num > num) {
-        for(i=0; i<winman->clients_num; i++)
-            if (winman->clients[i].win == ev.xany.window) {
-                winman->clients_num -= 1;
-                for(j=i+1; j<winman->clients_num; j++)
-                    winman->clients[j-1] = winman->clients[j];
-                winman->clients = realloc(winman->clients, sizeof(Client)*winman->clients_num); 
-            }
-    }*/
-    if(wins)
-        XFree(wins);
-}
-
 
 /*
  * This removes an event from the queue
@@ -432,11 +383,12 @@ int main() {
         printf("                           Geo: %d %d %d %d\n", 
                 winman->clients[0].x, winman->clients[0].y, winman->clients[i].w, winman->clients[0].h);
     }
+    
     printf("Great so far! Try some resizing now...\n");fflush(stdout);
     resize(winman, &winman->clients[0], winman->wax, winman->way, winman->waw, winman->wah, 0);
     printf("Good. Set a border around our main client now...");
     border_client(&winman->clients[0], 9);
-
+    
     printf("Try to raise in cycles as well...\n");
     for(i=0; i < winman->clients_num; i++) {
         raise_client(&winman->clients[i]);
@@ -453,16 +405,9 @@ int main() {
         printf("            ... and unbanned? %d \n", winman->clients[i].isbanned);fflush(stdout);
     }
 
-    printf("Start handling of pending events for a few seconds...\n");
-    for(i=100; i>0; --i) {
-        process_event(winman);
-        usleep(10000);
-    }
-
-    printf("Try query update...\n");
-    update_query(winman);
-
     printf("Finish for now...\n");
+    Destroy_WM(winman);
+
     return 0;
 }
 
