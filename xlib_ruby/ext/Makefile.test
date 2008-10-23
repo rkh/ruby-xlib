@@ -1,0 +1,4 @@
+# DO NOT REMOVE! ITS MY GDB-TESTHELP
+
+wm:    x11.c x11.h
+	gcc -I/usr/X11R6/include/ -lc -L/usr/X11R6/lib -lX11 x11.c -ggdb -o wm
