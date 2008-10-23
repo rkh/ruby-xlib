@@ -107,14 +107,19 @@ static VALUE wm_num_clients(VALUE self) {
 
 static VALUE wm_selected(VALUE self) {
     WM *newwm;
-    Window focus_return;
+    XEvent event_return, event_saviour;
     int i;
 
     Data_Get_Struct(self, WM, newwm);
 
-    XGetInputFocus(newwm->dpy, &focus_return, &i);
+    // Cycle through focus events and get the most recent
+    XCheckTypedEvent(newwm->dpy, FocusIn, &event_return);
+    /*
+    while (XCheckTypedEvent(newwm->dpy, FocusIn, &event_return))
+    */
+        event_saviour = event_return; 
     for (i=0; i<newwm->clients_num; i++)
-       if (&newwm->clients[i].win == &focus_return)
+       if (&newwm->clients[i].win == &event_saviour.xany.window)
            newwm->selected = &newwm->clients[i];
     return client_make(cClient, newwm->selected);
 }

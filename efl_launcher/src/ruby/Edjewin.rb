@@ -32,4 +32,3 @@ class Edjewin
     attr_accessor :ee, :edje
 end
 
-
