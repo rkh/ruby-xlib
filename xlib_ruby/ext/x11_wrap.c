@@ -321,11 +321,11 @@ static VALUE client_size_set(VALUE self, VALUE valarray) {
     Data_Get_Struct(self, Client, c);
     int x,y,w,h;
     
-    if (RARRAY(valarray)->len >= 4) {
-        x = RARRAY(valarray)->ptr[0];
-        y = RARRAY(valarray)->ptr[1];
-        w = RARRAY(valarray)->ptr[2];
-        h = RARRAY(valarray)->ptr[3];
+    if (RARRAY_LEN(valarray) >= 4) {
+        x = RARRAY_PTR(valarray)[0];
+        y = RARRAY_PTR(valarray)[1];
+        w = RARRAY_PTR(valarray)[2];
+        h = RARRAY_PTR(valarray)[3];
         resize(c->manager, c, x, y, w, h, False);
     }
     else
