@@ -344,16 +344,20 @@ Client* query_clients(WM* winman) {
 
     wins = NULL;
     if (XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num)) {
-        winman->clients_num = 0;
-        c = (Client*)calloc(num, sizeof(Client));
-        for (i = 0; i < num; i++) {
-          if (XGetWindowAttributes(winman->dpy, wins[i], &wa) &&
-              !wa.override_redirect &&
+      fprintf(stderr,"Managing %i windows...\n",num);
+      winman->clients_num = 0;
+      c = (Client*)calloc(num, sizeof(Client));
+      for (i = 0; i < num; i++) {
+        if (XGetWindowAttributes(winman->dpy, wins[i], &wa)) {
+          if (!wa.override_redirect &&
               (wa.map_state == IsViewable || getstate(winman,wins[i]) == IconicState)) {
             winman->clients_num += 1;
             manage(winman, wins[i], &wa, &c[i]);
-          }
+          } else {
+            fprintf(stderr,"Ignoring %x (map_state=%i override_redirect=%i)\n",(int)wins[i],(int)wa.map_state,(int)wa.override_redirect);
+          }          
         }
+      }
     }
     if(wins)
         XFree(wins);
