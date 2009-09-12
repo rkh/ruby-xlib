@@ -366,7 +366,7 @@ void Init_x11() {
     rb_define_method(cClient, "size=", client_size_set, 1);
     rb_define_method(cClient, "size", client_size, 0);
     rb_define_method(cClient, "name", client_name, 0);
-    rb_define_method(cClient, "class", client_class, 0);
+    rb_define_method(cClient, "window_class", client_class, 0);
 
     rb_define_method(cClient, "xpos", client_x, 0);
     rb_define_method(cClient, "ypos", client_y, 0);
