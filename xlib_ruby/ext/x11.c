@@ -90,7 +90,7 @@ void manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
     wc.border_width = c->border;
     //XConfigureWindow(winman->dpy, w, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
     fprintf(stderr,"manage:XConfigureWindow w=%x border=%i\n", (int)w, wc.border_width);
-    //XConfigureWindow(winman->dpy, w, CWBorderWidth, &wc);
+    XConfigureWindow(winman->dpy, w, CWBorderWidth, &wc);
     XSelectInput(winman->dpy, w, EnterWindowMask | FocusChangeMask 
             | PropertyChangeMask | StructureNotifyMask);
     XMoveResizeWindow(winman->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this    
@@ -348,6 +348,7 @@ Client* query_clients(WM* winman) {
         c = (Client*)calloc(num, sizeof(Client));
         for (i = 0; i < num; i++) {
           if (XGetWindowAttributes(winman->dpy, wins[i], &wa) &&
+              !wa.override_redirect &&
               (wa.map_state == IsViewable || getstate(winman,wins[i]) == IconicState)) {
             winman->clients_num += 1;
             manage(winman, wins[i], &wa, &c[i]);
