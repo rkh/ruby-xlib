@@ -358,7 +358,7 @@ void Init_x11() {
     rb_define_method(cWM, "windowareaheight=", wm_wah_set, 1);
     rb_define_method(cWM, "number_of_clients", wm_num_clients, 0);
     rb_define_method(cWM, "clients", wm_clients, 0);
-    rb_define_method(cWM, "event_pending?", wm_event_pending, 0);
+    rb_define_method(cWM, "events_pending", wm_event_pending, 0);
     rb_define_method(cWM, "next_event", wm_event_next_type, 0);
     rb_define_method(cWM, "next_event_source", wm_event_next_source, 0);
     rb_define_method(cWM, "event_pop", wm_event_pop, 0);
