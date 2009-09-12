@@ -21,17 +21,25 @@ static char* Xevents[] = {
  * Window manager object which is passed as a pointer
  */
 void setup(WM* winman) {
-    // init geometry
-    winman->sx = winman->sy = 0;
-    winman->sw = DisplayWidth(winman->dpy, winman->screen);
-    winman->sh = DisplayHeight(winman->dpy, winman->screen);
+	/* init atoms */
+	winman->wmatom[WMProtocols] =   XInternAtom(winman->dpy, "WM_PROTOCOLS", False);
+	winman->wmatom[WMDelete] =      XInternAtom(winman->dpy, "WM_DELETE_WINDOW", False);
+	winman->wmatom[WMName] =        XInternAtom(winman->dpy, "WM_NAME", False);
+	winman->wmatom[WMState] =       XInternAtom(winman->dpy, "WM_STATE", False);
+	winman->netatom[NetSupported] = XInternAtom(winman->dpy, "_NET_SUPPORTED", False);
+	winman->netatom[NetWMName] =    XInternAtom(winman->dpy, "_NET_WM_NAME", False);
+  
+  // init geometry
+  winman->sx = winman->sy = 0;
+  winman->sw = DisplayWidth(winman->dpy, winman->screen);
+  winman->sh = DisplayHeight(winman->dpy, winman->screen);
 
-    // init window area
-    winman->wax = winman->way = 0;
-    winman->waw = winman->sw;
-    winman->wah = winman->sh;
+  // init window area
+  winman->wax = winman->way = 0;
+  winman->waw = winman->sw;
+  winman->wah = winman->sh;
 
-    // TODO: Grabkeys, Multihead-Support, Xinerama, Compiz, Multitouch :D
+  // TODO: Grabkeys, Multihead-Support, Xinerama, Compiz, Multitouch :D
 }
 
 /*
@@ -80,7 +88,9 @@ void manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
         c->border = 0;
     }
     wc.border_width = c->border;
-    XConfigureWindow(winman->dpy, w, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    //XConfigureWindow(winman->dpy, w, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    fprintf(stderr,"manage:XConfigureWindow w=%x border=%i\n", (int)w, wc.border_width);
+    //XConfigureWindow(winman->dpy, w, CWBorderWidth, &wc);
     XSelectInput(winman->dpy, w, EnterWindowMask | FocusChangeMask 
             | PropertyChangeMask | StructureNotifyMask);
     XMoveResizeWindow(winman->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this    
@@ -98,7 +108,8 @@ void border_client(Client* c, int w) {
 
     c->border = w;
     wc.border_width = w;
-    XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    fprintf(stderr,"border_client:XConfigureWindow border=%i\n", wc.border_width);
+    XConfigureWindow(c->manager->dpy, c->win, CWBorderWidth, &wc);
     XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
     XSync(c->manager->dpy, False);
 }
@@ -111,7 +122,8 @@ void unborder_client(Client* c) {
 
     c->border = c->oldborder;
     wc.border_width = c->border;
-    XConfigureWindow(c->manager->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+    fprintf(stderr,"unborder_client:XConfigureWindow border=%i\n", wc.border_width);
+    XConfigureWindow(c->manager->dpy, c->win, CWBorderWidth, &wc);
     XMoveResizeWindow(c->manager->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this
     XSync(c->manager->dpy, False);
 }
@@ -273,6 +285,7 @@ resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints) {
 		c->w = wc.width = w;
 		c->h = wc.height = h;
 		wc.border_width = c->border;
+    fprintf(stderr,"resize:XConfigureWindow x=%i y=%i width=%i height=%i border=%i\n", wc.x,wc.y,wc.width,wc.height,wc.border_width);
 		XConfigureWindow(winman->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
 		XSync(winman->dpy, False);
 	}
@@ -300,6 +313,24 @@ void unban_client(Client*c) {
     XSync(c->manager->dpy, False);
 }
 
+long
+getstate(WM* winman, Window w) {
+	int format, status;
+	long result = -1;
+	unsigned char *p = NULL;
+	unsigned long n, extra;
+	Atom real;
+
+	status = XGetWindowProperty(winman->dpy, w, winman->wmatom[WMState], 0L, 2L, False, winman->wmatom[WMState],
+			&real, &format, &n, &extra, (unsigned char **)&p);
+	if(status != Success)
+		return -1;
+	if(n != 0)
+		result = *p;
+	XFree(p);
+	return result;
+}
+
 /*
  * This is a setup-function to fill the field
  * of managed clients in the WM object.
@@ -313,12 +344,14 @@ Client* query_clients(WM* winman) {
 
     wins = NULL;
     if (XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num)) {
-        winman->clients_num = num;
+        winman->clients_num = 0;
         c = (Client*)calloc(num, sizeof(Client));
         for (i = 0; i < num; i++) {
-            XGetWindowAttributes(winman->dpy, wins[i], &wa);
-            if(wa.map_state == IsViewable)
-                manage(winman, wins[i], &wa, &c[i]);
+          if (XGetWindowAttributes(winman->dpy, wins[i], &wa) &&
+              (wa.map_state == IsViewable || getstate(winman,wins[i]) == IconicState)) {
+            winman->clients_num += 1;
+            manage(winman, wins[i], &wa, &c[i]);
+          }
         }
     }
     if(wins)
