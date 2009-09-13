@@ -1,45 +1,81 @@
 #include "x11.h"
 
-static char* Xevents[] = {
-	[ButtonPress] = "buttonpress",
-	[ConfigureRequest] = "configurerequest",
-	[ConfigureNotify] = "configurenotify",
-	[DestroyNotify] = "destroynotify",
-	[EnterNotify] = "enternotify",
+char* Xevents[] = {
+	[ButtonPress] = "button_press",
+	[ButtonRelease] = "button_release",
+	[ConfigureRequest] = "configure_request",
+	[ConfigureNotify] = "configure_notify",
+	[DestroyNotify] = "destroy_notify",
+	[EnterNotify] = "enter_notify",
+	[LeaveNotify] = "leave_notify",
 	[Expose] = "expose",
-	[FocusIn] = "focusin",
-	[KeyPress] = "keypress",
-	[LeaveNotify] = "leavenotify",
-	[MappingNotify] = "mappingnotify",
-	[MapRequest] = "maprequest",
-	[PropertyNotify] = "propertynotify",
-	[UnmapNotify] = "unmapnotify"
+	[FocusIn] = "focus_in",
+	[FocusOut] = "focus_out",
+	[KeyPress] = "key_press",
+	[KeyRelease] = "key_release",
+	[MappingNotify] = "mapping_notify",
+	[MapRequest] = "map_request",
+	[UnmapNotify] = "unmap_notify",
+	[PropertyNotify] = "property_notify"
 };
 
 /*
  * This handles just some initial setup directly related to the 
  * Window manager object which is passed as a pointer
  */
-void setup(WM* winman) {
+void setup(WM* wm) {
+  XSetWindowAttributes swa;
+  
 	/* init atoms */
-	winman->wmatom[WMProtocols] =   XInternAtom(winman->dpy, "WM_PROTOCOLS", False);
-	winman->wmatom[WMDelete] =      XInternAtom(winman->dpy, "WM_DELETE_WINDOW", False);
-	winman->wmatom[WMName] =        XInternAtom(winman->dpy, "WM_NAME", False);
-	winman->wmatom[WMState] =       XInternAtom(winman->dpy, "WM_STATE", False);
-	winman->netatom[NetSupported] = XInternAtom(winman->dpy, "_NET_SUPPORTED", False);
-	winman->netatom[NetWMName] =    XInternAtom(winman->dpy, "_NET_WM_NAME", False);
+	wm->wmatom[WMProtocols] =   XInternAtom(wm->dpy, "WM_PROTOCOLS", False);
+	wm->wmatom[WMDelete] =      XInternAtom(wm->dpy, "WM_DELETE_WINDOW", False);
+	wm->wmatom[WMName] =        XInternAtom(wm->dpy, "WM_NAME", False);
+	wm->wmatom[WMState] =       XInternAtom(wm->dpy, "WM_STATE", False);
+	wm->netatom[NetSupported] = XInternAtom(wm->dpy, "_NET_SUPPORTED", False);
+	wm->netatom[NetWMName] =    XInternAtom(wm->dpy, "_NET_WM_NAME", False);
   
   // init geometry
-  winman->sx = winman->sy = 0;
-  winman->sw = DisplayWidth(winman->dpy, winman->screen);
-  winman->sh = DisplayHeight(winman->dpy, winman->screen);
+  wm->sx = wm->sy = 0;
+  wm->sw = DisplayWidth(wm->dpy, wm->screen);
+  wm->sh = DisplayHeight(wm->dpy, wm->screen);
 
   // init window area
-  winman->wax = winman->way = 0;
-  winman->waw = winman->sw;
-  winman->wah = winman->sh;
+  wm->wax = wm->way = 0;
+  wm->waw = wm->sw;
+  wm->wah = wm->sh;
+
+	swa.event_mask = SubstructureRedirectMask |
+                   SubstructureNotifyMask |
+                   EnterWindowMask |
+                   LeaveWindowMask |
+                   StructureNotifyMask;
+	XChangeWindowAttributes(wm->dpy, wm->root, CWEventMask, &swa);
+	XSelectInput(wm->dpy, wm->root, swa.event_mask);
 
   // TODO: Grabkeys, Multihead-Support, Xinerama, Compiz, Multitouch :D
+}
+
+void init_client(WM* wm, Window w, Client* c) {
+  char* name;
+  XClassHint* ch = XAllocClassHint();
+  memset(c,0,sizeof(Client));
+  c->win = w;
+  c->manager = wm;
+  c->x =c->y = 0;
+  c->w = c->h = 10;
+
+  if (XGetClassHint(wm->dpy, w, ch)) {
+    sprintf(c->class,"%s",ch->res_class);
+    if (ch->res_class) XFree(ch->res_class);
+    if (ch->res_name) XFree(ch->res_name);
+  }
+
+  if (XFetchName(wm->dpy,w,&name)) {
+    sprintf(c->name,"%s",name);
+    XFree(name);
+  }
+
+  c->x = c->y = c->w = c->h = c->oldborder = 0;
 }
 
 /*
@@ -48,56 +84,52 @@ void setup(WM* winman) {
  * must be passed as well. This function will be called each time a
  * window is added to the field of managed windows in the WM object
  */
-void manage(WM* winman, Window w, XWindowAttributes *wa, Client* c) {
-    XWindowChanges wc;
-    XClassHint* ch = XAllocClassHint();
-    char* win_name;
+void manage_client(WM* winman, XWindowAttributes *wa, Client* c) {
+  XWindowChanges wc;
+    
+  c->x = wa->x;
+  c->y = wa->y;
+  c->w = wa->width;
+  c->h = wa->height;
+  c->oldborder = wa->border_width;
 
-    c->win = w;
-    c->manager = winman;
+  if(c->w == winman->sw && c->h == winman->sh) {
+    c->x = winman->sx;
+    c->y = winman->sy;
+    c->border = wa->border_width;
+  } else {
+    if(c->x + c->w + 2 * c->border > winman->wax + winman->waw)
+      c->x = winman->wax + winman->waw - c->w - 2 * c->border;
+    if(c->y + c->h + 2 * c->border > winman->way + winman->wah)
+      c->y = winman->way + winman->wah - c->h - 2 * c->border;
+    if(c->x < winman->wax)
+      c->x = winman->wax;
+    if(c->y < winman->way)
+      c->y = winman->way;
 
-    if (XGetClassHint(winman->dpy, c->win, ch)) {
-        sprintf(c->class,"%s", ch->res_class);
-        if(ch->res_class) XFree(ch->res_class);
-        if(ch->res_name) XFree(ch->res_name);
-    }
-    if (XFetchName(winman->dpy, w, &win_name)) {
-        sprintf(c->name,"%s",win_name);
-        XFree(win_name);
-    }
+    c->border = 0;
+  }
+  
+  wc.border_width = c->border;
+  XConfigureWindow(winman->dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
 
-    c->x = wa->x;
-    c->y = wa->y;
-    c->w = wa->width;
-    c->h = wa->height;
-    c->oldborder = wa->border_width;
-    if(c->w == winman->sw && c->h == winman->sh) {
-        c->x = winman->sx;
-        c->y = winman->sy;
-        c->border = wa->border_width;
-    }
-    else {
-        if(c->x + c->w + 2 * c->border > winman->wax + winman->waw)
-            c->x = winman->wax + winman->waw - c->w - 2 * c->border;
-        if(c->y + c->h + 2 * c->border > winman->way + winman->wah)
-            c->y = winman->way + winman->wah - c->h - 2 * c->border;
-        if(c->x < winman->wax)
-            c->x = winman->wax;
-        if(c->y < winman->way)
-            c->y = winman->way;
-        c->border = 0;
-    }
-    wc.border_width = c->border;
-    //XConfigureWindow(winman->dpy, w, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
-    fprintf(stderr,"manage:XConfigureWindow w=%x border=%i\n", (int)w, wc.border_width);
-    XConfigureWindow(winman->dpy, w, CWBorderWidth, &wc);
-    XSelectInput(winman->dpy, w, EnterWindowMask | FocusChangeMask 
-            | PropertyChangeMask | StructureNotifyMask);
-    XMoveResizeWindow(winman->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this    
-    XMapWindow(winman->dpy, c->win);
-    XSetInputFocus(winman->dpy, c->win, RevertToNone, CurrentTime); // focus new windows    
-    winman->selected = c;
-    XSync(winman->dpy, False);
+  XSelectInput(winman->dpy,
+               c->win,
+               ButtonPressMask |
+               ButtonReleaseMask |
+               EnterWindowMask |
+               LeaveWindowMask |
+               FocusChangeMask |
+               KeyPressMask |
+               KeyReleaseMask |
+               PropertyChangeMask |
+               StructureNotifyMask);
+
+  XMoveResizeWindow(winman->dpy, c->win, c->x, c->y, c->w, c->h); // some wins need this    
+  XMapWindow(winman->dpy, c->win);
+  //XSetInputFocus(winman->dpy, c->win, RevertToNone, CurrentTime); // focus new windows    
+  //winman->selected = c;
+  XSync(winman->dpy, False);
 }
 
 /*
@@ -180,6 +212,15 @@ void process_event(WM* winman) {
         }
 }
 */
+
+Client* client_ftw(WM* wm, Window w) {
+  int i;
+  for (i = 0; i < wm->clients_num; i++) {
+    if (wm->clients[i].win == w)
+      return &wm->clients[i];
+  }
+  return NULL;
+}
 
 /*
  * This shows which source caused the event.
@@ -331,6 +372,17 @@ getstate(WM* winman, Window w) {
 	return result;
 }
 
+int manageable_p(WM* wm, Window w) {
+  XWindowAttributes wa;
+  
+  if (XGetWindowAttributes(wm->dpy, w, &wa)) {
+    return !wa.override_redirect &&
+           (wa.map_state == IsViewable || getstate(wm,w) == IconicState);
+  } else {
+    return 0;
+  }
+}
+
 /*
  * This is a setup-function to fill the field
  * of managed clients in the WM object.
@@ -343,20 +395,25 @@ Client* query_clients(WM* winman) {
     Client* c = (Client*)malloc(sizeof(Client));
 
     wins = NULL;
+    wa.width = winman->waw;
+    wa.height = winman->wah;
+    wa.x = wa.y = 0;
     if (XQueryTree(winman->dpy, winman->root, &d1, &d2, &wins, &num)) {
       fprintf(stderr,"Managing %i windows...\n",num);
       winman->clients_num = 0;
       c = (Client*)calloc(num, sizeof(Client));
       for (i = 0; i < num; i++) {
-        if (XGetWindowAttributes(winman->dpy, wins[i], &wa)) {
-          if (!wa.override_redirect &&
-              (wa.map_state == IsViewable || getstate(winman,wins[i]) == IconicState)) {
-            winman->clients_num += 1;
-            manage(winman, wins[i], &wa, &c[i]);
-          } else {
-            fprintf(stderr,"Ignoring %x (map_state=%i override_redirect=%i)\n",(int)wins[i],(int)wa.map_state,(int)wa.override_redirect);
-          }          
-        }
+        if (manageable_p(winman, wins[i])) {
+          init_client(winman, wins[i], &c[winman->clients_num]);
+          manage_client(winman, &wa, &c[winman->clients_num]);
+          winman->clients_num += 1;
+          wa.x += 60;
+          wa.width -= 60;
+          wa.y += 40;
+          wa.height -= 40;
+        } else {
+          fprintf(stderr,"Ignoring %x (map_state=%i override_redirect=%i)\n",(int)wins[i],(int)wa.map_state,(int)wa.override_redirect);
+        }          
       }
     }
     if(wins)
