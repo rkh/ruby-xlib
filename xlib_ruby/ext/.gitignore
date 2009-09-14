@@ -1,0 +1,5 @@
+Makefile
+mkmf.log
+x11.o
+x11.so
+x11_wrap.o

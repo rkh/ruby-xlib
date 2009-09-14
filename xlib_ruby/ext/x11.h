@@ -54,6 +54,9 @@ struct WM_t {
     Client* clients;
 };
 
+int manageable_p(WM* wm, Window w);
+void init_client(WM* wm, Window w, Client* c);
+void manage_client(WM* wm, XWindowAttributes *wa, Client* c);
 void resize(WM* winman, Client *c, int x, int y, int w, int h, int sizehints);
 Client* query_clients(WM* winman);
 void raise_client(Client* c);
@@ -67,5 +70,6 @@ int event_next_source(WM* winman);
 char* event_next_type(WM* winman);
 void event_pop(WM* winman);
 void Destroy_WM(WM* winman);
+Client* client_ftw(WM* wm, Window w);
 
 #endif
