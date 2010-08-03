@@ -18,6 +18,7 @@ find_header("X11/Xproto.h", "/usr/X11R6/include");
 find_header("X11/Xutil.h", "/usr/X11R6/include");
 find_header("X11/keysym.h", "/usr/X11R6/include");
 find_header("locale.h", ["/usr/include"]);
+find_library("X11", "XOpenDisplay", "/usr/lib", "/usr/X11/lib")
 
 $libs = append_library($libs, "X11")
 $libs = append_library($libs, "c")
