@@ -376,8 +376,12 @@ int manageable_p(WM* wm, Window w) {
   XWindowAttributes wa;
   
   if (XGetWindowAttributes(wm->dpy, w, &wa)) {
-    return !wa.override_redirect &&
-           (wa.map_state == IsViewable || getstate(wm,w) == IconicState);
+    if (wm->manage_override_redirect_windows) {
+      return (wa.map_state == IsViewable || getstate(wm,w) == IconicState);
+    } else {
+      return !wa.override_redirect &&
+             (wa.map_state == IsViewable || getstate(wm,w) == IconicState);
+    }
   } else {
     return 0;
   }

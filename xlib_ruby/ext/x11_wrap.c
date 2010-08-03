@@ -106,6 +106,19 @@ static VALUE wm_wax_set(VALUE self, VALUE newval) {
     return Qnil;
 }
 
+static VALUE wm_manage_override_redirect_windows(VALUE self) {
+    WM *newwm;
+    Data_Get_Struct(self, WM, newwm);
+    return newwm->manage_override_redirect_windows ? Qtrue : Qfalse;
+}
+
+static VALUE wm_manage_override_redirect_windows_set(VALUE self, VALUE flag) {
+    WM *newwm;
+    Data_Get_Struct(self, WM, newwm);
+    newwm->manage_override_redirect_windows = (flag == Qtrue ? 1 : 0);
+    return newwm->manage_override_redirect_windows ? Qtrue : Qfalse;
+}
+
 static VALUE wm_way(VALUE self) {
     WM *newwm;
     Data_Get_Struct(self, WM, newwm);
@@ -626,7 +639,8 @@ void Init_x11() {
   rb_define_method(cWM, "get_grab_key", wm_grab_key, 2);
   rb_define_method(cWM, "get_ungrab_key", wm_ungrab_key, 2);
   rb_define_method(cWM, "manage", wm_manage, 5);
-
+  rb_define_method(cWM, "manage_override_redirect_windows", wm_manage_override_redirect_windows, 0);
+  rb_define_method(cWM, "manage_override_redirect_windows=", wm_manage_override_redirect_windows_set, 1);
 
   // Client
 

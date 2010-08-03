@@ -47,6 +47,7 @@ struct WM_t {
     Window root;
     Bool running; 
     Bool otherwm;
+    Bool manage_override_redirect_windows;
     int (*xerrorxlib)(Display *, XErrorEvent *);
     Atom wmatom[WMLast];
     Atom netatom[NetLast];
